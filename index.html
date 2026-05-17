@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fortis OS - Privacy-First Linux</title>
+  <meta name="description" content="Fortis is a secure, privacy-focused operating system built on the Linux kernel. Immutable infrastructure. Zero telemetry. Full control.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2300D4FF'/><stop offset='1' stop-color='%235B0FBE'/></linearGradient></defs><rect width='32' height='32' rx='8' fill='url(%23g)'/><path d='M16 7 L22 11 L22 17 C22 21 19 23.5 16 25 C13 23.5 10 21 10 17 L10 11 Z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/><path d='M13 16.5 L15.5 19 L19.5 14' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="logo-g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#00D4FF"/>
+          <stop offset="1" stop-color="#5B0FBE"/>
+        </linearGradient>
+      </defs>
+      <rect width="32" height="32" rx="8" fill="url(#logo-g)"/>
+      <path d="M16 7 L22 11 L22 17 C22 21 19 23.5 16 25 C13 23.5 10 21 10 17 L10 11 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M13 16.5 L15.5 19 L19.5 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Fortis
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="docs.html">Docs</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="downloads.html" class="btn btn-ghost">Downloads</a>
+    <a href="downloads.html" class="btn btn-primary">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L5 7m3 3 3-3M3 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Get Fortis
+    </a>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu">
+  <a href="#features">Features</a>
+  <a href="#philosophy">Philosophy</a>
+  <a href="#how">How it works</a>
+  <a href="docs.html">Docs</a>
+  <a href="about.html">About</a>
+  <a href="downloads.html" class="btn btn-primary">Get Fortis</a>
+</div>
+
+<!-- HERO -->
+<div class="hero-wrapper">
+  <div class="hero-bg">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="hero-grid"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Version 1.0 now available
+    </div>
+    <h1 class="hero-title">
+      The OS that<br>
+      <span class="gradient-text">keeps quiet.</span>
+    </h1>
+    <p class="hero-sub">
+      Fortis is a Linux-based operating system built from the ground up for security and privacy. Immutable by design. Zero telemetry. Your machine, your rules.
+    </p>
+    <div class="hero-actions">
+      <a href="downloads.html" class="btn btn-primary btn-lg">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L5 7m3 3 3-3M3 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Download Free
+      </a>
+      <a href="docs.html" class="btn btn-ghost btn-lg">Read the docs</a>
+    </div>
+  </div>
+
+  <div class="hero-terminal">
+    <div class="terminal-window">
+      <div class="terminal-bar">
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <span class="terminal-title">fortis-shell</span>
+      </div>
+      <div class="terminal-body" id="terminal-output"></div>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Telemetry calls</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Open source</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">A+</div>
+      <div class="stat-label">Security rating</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4.2s</div>
+      <div class="stat-label">Boot time</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="features-header reveal">
+    <span class="section-label">Core features</span>
+    <h2>Built tight.<br>Stays tight.</h2>
+    <p>Every component is chosen with intention. Nothing runs on your system that you didn't put there.</p>
+  </div>
+
+  <div class="features-grid reveal">
+    <div class="feature-card featured">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3 L20 7 L20 14 C20 18.5 16.5 21.5 12 23 C7.5 21.5 4 18.5 4 14 L4 7 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 12.5 L11.5 15 L15.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>Immutable root filesystem</h3>
+      <p>The root filesystem ships read-only and verified via dm-verity on every boot. Malware can't persist across reboots. System state stays exactly as you set it, always.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Zero telemetry</h3>
+      <p>No crash reports. No usage analytics. Nothing leaves your machine unless you explicitly send it.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="16" r="1.5" fill="currentColor"/></svg>
+      </div>
+      <h3>Verified boot chain</h3>
+      <p>Secure Boot integration with a full chain-of-trust from firmware to userspace. Tampering is detected before the OS loads.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Container-first apps</h3>
+      <p>Applications run isolated in OCI containers. One misbehaving app can't touch the rest of your system.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 12a9 9 0 1 1-6.219-8.56" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M21 3 L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15 3h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>Network firewall by default</h3>
+      <p>Outbound connections are denied by default. Every allowed connection is an explicit choice, not an accident.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v4H4zM4 10h16v4H4zM4 16h16v4H4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="8" cy="6" r="1" fill="currentColor"/><circle cx="8" cy="12" r="1" fill="currentColor"/><circle cx="8" cy="18" r="1" fill="currentColor"/></svg>
+      </div>
+      <h3>Atomic updates</h3>
+      <p>Updates apply to a new snapshot, not your running system. Roll back to any prior state in seconds.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider" style="padding-top:clamp(4rem,8vw,7rem)"><hr></div>
+
+<!-- PHILOSOPHY -->
+<section style="max-width:1200px;margin:0 auto;padding:clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,4rem);">
+  <div class="philosophy-section" id="philosophy">
+    <div class="philosophy-visual reveal">
+      <div class="phil-ring phil-ring-1">
+        <div class="phil-dot"></div>
+      </div>
+      <div class="phil-ring phil-ring-2"></div>
+      <div class="phil-ring phil-ring-3"></div>
+      <div class="phil-center"></div>
+    </div>
+
+    <div class="philosophy-text reveal reveal-delay-2">
+      <span class="section-label">Philosophy</span>
+      <h2>Privacy is a<br><span class="gradient-text">default, not a feature.</span></h2>
+      <p>Most operating systems treat privacy as a settings menu. Fortis treats it as a constraint that everything else is built around.</p>
+      <p>We don't collect data we don't need. We don't enable services you didn't ask for. We don't ship software that phones home.</p>
+      <ul class="philosophy-points">
+        <li>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5 L6.5 12 L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Principle of least privilege applied everywhere
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5 L6.5 12 L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          No background services without explicit consent
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5 L6.5 12 L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Full source available, audit it yourself
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5 L6.5 12 L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Reproducible builds, verified by the community
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="how-header reveal">
+    <span class="section-label">How it works</span>
+    <h2>From boot to desktop, secured.</h2>
+    <p>Fortis chains every layer of your system together. Compromise one, and the chain breaks visibly.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">01</div>
+      <h3>Verified firmware</h3>
+      <p>UEFI Secure Boot validates the bootloader signature before handing off control.</p>
+    </div>
+    <div class="step reveal reveal-delay-1">
+      <div class="step-num">02</div>
+      <h3>Signed kernel</h3>
+      <p>The Fortis kernel is signed and verified. Unsigned modules are rejected at load time.</p>
+    </div>
+    <div class="step reveal reveal-delay-2">
+      <div class="step-num">03</div>
+      <h3>dm-verity root</h3>
+      <p>The root filesystem is hash-verified block by block. Any corruption halts the boot.</p>
+    </div>
+    <div class="step reveal reveal-delay-3">
+      <div class="step-num">04</div>
+      <h3>Isolated userspace</h3>
+      <p>Apps run in containers with explicit capability grants. The default answer is no.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider" style="padding-top:clamp(4rem,8vw,7rem)"><hr></div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-inner reveal">
+    <div class="cta-glow"></div>
+    <span class="section-label" style="justify-content:center">Get started</span>
+    <h2>Ready to run something<br><span class="gradient-text">you actually control?</span></h2>
+    <p>Download Fortis, burn it to a USB, and boot into a system that works for you. No account required. No strings attached.</p>
+    <div class="cta-actions">
+      <a href="downloads.html" class="btn btn-primary btn-lg">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L5 7m3 3 3-3M3 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Download Fortis
+      </a>
+      <a href="docs.html" class="btn btn-outline btn-lg">Read the docs</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+          <defs><linearGradient id="foot-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00D4FF"/><stop offset="1" stop-color="#5B0FBE"/></linearGradient></defs>
+          <rect width="32" height="32" rx="8" fill="url(#foot-g)"/>
+          <path d="M16 7 L22 11 L22 17 C22 21 19 23.5 16 25 C13 23.5 10 21 10 17 L10 11 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M13 16.5 L15.5 19 L19.5 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Fortis
+      </a>
+      <p>A secure, privacy-focused OS built on Linux. Open source. Community driven. No strings attached.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#philosophy">Philosophy</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="downloads.html">Downloads</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Developers</h4>
+      <ul>
+        <li><a href="docs.html">Documentation</a></li>
+        <li><a href="docs.html#api">API reference</a></li>
+        <li><a href="docs.html#contributing">Contributing</a></li>
+        <li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#team">Team</a></li>
+        <li><a href="#">Security policy</a></li>
+        <li><a href="#">GPG key</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Fortis OS. Licensed under GPL-2.0.</span>
+    <span>Built in public. No tracking. No ads.</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

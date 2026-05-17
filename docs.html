@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation - Fortis OS</title>
+  <meta name="description" content="Fortis OS documentation. Installation guides, configuration references, and security architecture.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2300D4FF'/><stop offset='1' stop-color='%235B0FBE'/></linearGradient></defs><rect width='32' height='32' rx='8' fill='url(%23g)'/><path d='M16 7 L22 11 L22 17 C22 21 19 23.5 16 25 C13 23.5 10 21 10 17 L10 11 Z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/><path d='M13 16.5 L15.5 19 L19.5 14' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+      <defs><linearGradient id="logo-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00D4FF"/><stop offset="1" stop-color="#5B0FBE"/></linearGradient></defs>
+      <rect width="32" height="32" rx="8" fill="url(#logo-g)"/>
+      <path d="M16 7 L22 11 L22 17 C22 21 19 23.5 16 25 C13 23.5 10 21 10 17 L10 11 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M13 16.5 L15.5 19 L19.5 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Fortis
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#philosophy">Philosophy</a></li>
+    <li><a href="index.html#how">How it works</a></li>
+    <li><a href="docs.html">Docs</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="downloads.html" class="btn btn-ghost">Downloads</a>
+    <a href="downloads.html" class="btn btn-primary">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L5 7m3 3 3-3M3 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Get Fortis
+    </a>
+  </div>
+  <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu">
+  <a href="index.html#features">Features</a>
+  <a href="index.html#philosophy">Philosophy</a>
+  <a href="downloads.html">Downloads</a>
+  <a href="about.html">About</a>
+  <a href="downloads.html" class="btn btn-primary">Get Fortis</a>
+</div>
+
+<div class="page-hero">
+  <span class="section-label">Documentation</span>
+  <h1><span class="gradient-text">Read the manual.</span></h1>
+  <p>Everything you need to install, configure, and understand Fortis. No fluff, no padding.</p>
+</div>
+
+<div class="docs-layout">
+  <aside class="docs-sidebar">
+    <div class="docs-sidebar-group">
+      <div class="docs-sidebar-label">Getting started</div>
+      <ul>
+        <li><a href="#installation" class="active">Installation</a></li>
+        <li><a href="#verify">Verifying the ISO</a></li>
+        <li><a href="#first-boot">First boot</a></li>
+        <li><a href="#post-install">Post-install setup</a></li>
+      </ul>
+    </div>
+    <div class="docs-sidebar-group">
+      <div class="docs-sidebar-label">Core concepts</div>
+      <ul>
+        <li><a href="#immutability">Immutable root</a></li>
+        <li><a href="#containers">Container apps</a></li>
+        <li><a href="#updates">Atomic updates</a></li>
+        <li><a href="#firewall">Firewall</a></li>
+      </ul>
+    </div>
+    <div class="docs-sidebar-group">
+      <div class="docs-sidebar-label">Reference</div>
+      <ul>
+        <li><a href="#api" id="api">fortis CLI</a></li>
+        <li><a href="#contributing" id="contributing">Contributing</a></li>
+        <li><a href="#">Security advisories</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="docs-content reveal">
+    <h2 id="installation">Installation</h2>
+    <p>Download the ISO from the <a href="downloads.html" style="color:var(--accent-mid)">downloads page</a> and verify the signature before proceeding. Fortis supports UEFI boot only. Legacy BIOS is not supported.</p>
+    <p>Write the ISO to a USB drive of at least 4GB. On Linux:</p>
+    <pre><code>dd if=fortis-1.0.0-x86_64.iso of=/dev/sdX bs=4M status=progress oflag=sync</code></pre>
+    <p>Replace <code>/dev/sdX</code> with your actual USB device. Boot from the USB, select your target drive, and the installer handles the rest.</p>
+
+    <h2 id="verify">Verifying the ISO</h2>
+    <p>Import the Fortis GPG key, then verify the detached signature alongside the ISO:</p>
+    <pre><code>gpg --import fortis-release.asc
+gpg --verify fortis-1.0.0-x86_64.iso.sig fortis-1.0.0-x86_64.iso</code></pre>
+    <p>You should see <code>Good signature from "Fortis Release Key"</code>. If you see anything else, do not boot the image.</p>
+
+    <h2 id="first-boot">First boot</h2>
+    <p>On first boot, Fortis generates your machine ID, sets up the dm-verity hash tree, and seals your TPM PCR measurements. This takes roughly 90 seconds. Do not interrupt it.</p>
+    <p>After setup completes, you will be prompted to create a user account. Root login is disabled by default and cannot be re-enabled through the standard interface.</p>
+
+    <h2 id="immutability">Immutable root filesystem</h2>
+    <p>The root partition is mounted read-only via dm-verity. Writes intended for system paths are transparently redirected to an overlay layer. On next boot, the overlay is discarded unless you explicitly commit changes via:</p>
+    <pre><code>fortis commit --message "Added ffmpeg"</code></pre>
+    <p>This snapshots your current overlay into a new root generation. You can roll back to any prior generation at boot time from the GRUB menu, or via:</p>
+    <pre><code>fortis rollback --generation 3</code></pre>
+
+    <h2 id="containers">Running applications</h2>
+    <p>Applications are distributed as OCI container images. Install and run them with the <code>fortis app</code> subcommand:</p>
+    <pre><code>fortis app install org.mozilla.firefox
+fortis app run org.mozilla.firefox</code></pre>
+    <p>Each app runs with a minimal capability set. Network access, filesystem access, and device access are all opt-in per application, declared in the image manifest and visible to you before install.</p>
+
+    <h2 id="firewall">Firewall defaults</h2>
+    <p>Outbound connections are denied by default for all non-system processes. To allow an app to reach the network, add a rule:</p>
+    <pre><code>fortis firewall allow org.mozilla.firefox --egress tcp:443 --egress tcp:80</code></pre>
+    <p>Rules are stored in <code>/etc/fortis/firewall.d/</code> and applied on boot. You can audit all active rules with <code>fortis firewall list</code>.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+          <defs><linearGradient id="foot-g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00D4FF"/><stop offset="1" stop-color="#5B0FBE"/></linearGradient></defs>
+          <rect width="32" height="32" rx="8" fill="url(#foot-g3)"/>
+          <path d="M16 7 L22 11 L22 17 C22 21 19 23.5 16 25 C13 23.5 10 21 10 17 L10 11 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M13 16.5 L15.5 19 L19.5 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Fortis
+      </a>
+      <p>A secure, privacy-focused OS built on Linux. Open source. Community driven. No strings attached.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="downloads.html">Downloads</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Developers</h4>
+      <ul>
+        <li><a href="docs.html">Documentation</a></li>
+        <li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="#">GPG key</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Fortis OS. Licensed under GPL-2.0.</span>
+    <span>Built in public. No tracking. No ads.</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
