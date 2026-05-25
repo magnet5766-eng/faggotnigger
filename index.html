@@ -34,6 +34,19 @@
       <h1 class="hero-title reveal">Your Title<br>Goes Here.</h1>
       <p class="hero-subtitle reveal">A short, clear subtitle that explains what you do or who you are. Keep it concise.</p>
     </div>
+    <div class="hero-image-wrap reveal" id="tiltWrap">
+      <div class="hero-image-tilt" id="tiltInner">
+        <img src="img.png" alt="Feature image" class="hero-image" id="heroImg" onerror="this.parentElement.parentElement.classList.add('img-missing')">
+        <div class="hero-image-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span>img.png</span>
+        </div>
+      </div>
+    </div>
     <div class="scroll-hint reveal">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="12" y1="5" x2="12" y2="19"/>
@@ -81,7 +94,7 @@
   <section class="cta">
     <div class="cta-inner">
       <h2 class="cta-title reveal">What are you waiting for?<br>Join now.</h2>
-      <a href="#" class="cta-button reveal">Join now</a>
+      <a href="#" class="cta-button reveal" id="joinBtn">Join now</a>
     </div>
   </section>
 
@@ -92,5 +105,6 @@
   <script src="theme.js"></script>
   <script src="scroll.js"></script>
   <script src="smooth.js"></script>
+  <script src="tilt.js"></script>
 </body>
 </html>
