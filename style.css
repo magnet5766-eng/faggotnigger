@@ -37,7 +37,6 @@
 
 html {
   font-size: 16px;
-  scroll-behavior: auto;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -104,8 +103,8 @@ body {
 
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .reveal.visible {
@@ -115,58 +114,127 @@ body {
 
 .reveal.hidden {
   opacity: 0;
-  transform: translateY(-16px);
+  transform: translateY(-18px);
 }
 
 .hero {
   min-height: 100svh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 5rem 2rem 4rem;
-  max-width: 720px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5rem 4rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
   position: relative;
+  gap: 4rem;
+}
+
+.hero-inner {
+  flex: 1;
+  min-width: 0;
 }
 
 .hero-eyebrow {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.4rem;
   transition: var(--transition-theme);
-  transition-delay: 0s;
 }
 
 .hero-title {
-  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-size: clamp(3.2rem, 6.5vw, 5.8rem);
   font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
   color: var(--text-primary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.6rem;
   transition: var(--transition-theme);
-  transition-delay: 0.08s;
 }
 
 .hero-subtitle {
-  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
   font-weight: 400;
   color: var(--text-secondary);
-  max-width: 480px;
-  line-height: 1.7;
+  max-width: 520px;
+  line-height: 1.75;
   transition: var(--transition-theme);
-  transition-delay: 0.16s;
+}
+
+.hero-image-wrap {
+  flex: 0 0 auto;
+  width: clamp(260px, 30vw, 400px);
+  aspect-ratio: 3 / 4;
+  border-radius: 1.25rem;
+  border: 2px solid var(--border);
+  overflow: hidden;
+  position: relative;
+  background-color: var(--bg-card);
+  transition: var(--transition-theme);
+  perspective: 900px;
+}
+
+.hero-image-tilt {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.12s ease-out;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-image-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--text-muted);
+  transition: var(--transition-theme);
+  z-index: 0;
+}
+
+.hero-image-placeholder svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  opacity: 0.5;
+}
+
+.hero-image-placeholder span {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  opacity: 0.6;
+}
+
+.hero-image-wrap:not(.img-missing) .hero-image-placeholder {
+  display: none;
+}
+
+.img-missing .hero-image {
+  display: none;
 }
 
 .scroll-hint {
   position: absolute;
   bottom: 2.5rem;
-  left: 2rem;
+  left: 4rem;
   color: var(--text-muted);
   transition: var(--transition-theme);
-  transition-delay: 0.24s;
 }
 
 .scroll-hint svg {
@@ -177,136 +245,185 @@ body {
 
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(5px); }
+  50% { transform: translateY(6px); }
 }
 
 .features {
-  padding: 6rem 2rem;
-  max-width: 1100px;
+  padding: 7rem 4rem;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.75rem;
 }
 
 .feature-card {
   background-color: var(--bg-card);
   border: 1.5px solid var(--border);
-  border-radius: 1rem;
-  padding: 2rem 1.75rem;
+  border-radius: 1.1rem;
+  padding: 2.25rem 2rem;
   transition: var(--transition-theme), transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .feature-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 28px var(--shadow-md);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 32px var(--shadow-md);
 }
 
 .feature-icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.6rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.7rem;
   background-color: var(--accent-soft);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.4rem;
   transition: var(--transition-theme);
 }
 
 .feature-icon svg {
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1.2rem;
+  height: 1.2rem;
   color: var(--accent);
   transition: var(--transition-theme);
 }
 
 .feature-title {
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 0.6rem;
-  letter-spacing: -0.01em;
+  margin-bottom: 0.7rem;
+  letter-spacing: -0.015em;
   transition: var(--transition-theme);
 }
 
 .feature-desc {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400;
   color: var(--text-secondary);
-  line-height: 1.65;
+  line-height: 1.7;
   transition: var(--transition-theme);
 }
 
 .cta {
-  padding: 7rem 2rem;
+  padding: 8rem 4rem;
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .cta-inner {
   max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .cta-title {
-  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.03em;
   color: var(--text-primary);
-  margin-bottom: 2rem;
+  margin-bottom: 2.25rem;
   transition: var(--transition-theme);
 }
 
 .cta-button {
   display: inline-flex;
   align-items: center;
-  padding: 0.85rem 2rem;
+  padding: 0.95rem 2.25rem;
   background-color: var(--accent);
   color: #fff;
   font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.01em;
   text-decoration: none;
-  border-radius: 0.6rem;
+  border-radius: 0.65rem;
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 4px 14px rgba(196, 98, 45, 0.3);
+  box-shadow: 0 4px 16px rgba(196, 98, 45, 0.3);
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              background-color 0.2s ease,
+              box-shadow 0.2s ease;
 }
 
-.cta-button.reveal {
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease,
-              opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+.cta-button.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cta-button.hidden {
+  opacity: 0;
+  transform: translateY(-18px);
 }
 
 .cta-button:hover {
   background-color: var(--accent-hover);
+  box-shadow: 0 6px 22px rgba(196, 98, 45, 0.4);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(196, 98, 45, 0.38);
+}
+
+.cta-button.visible:hover {
+  transform: translateY(-2px);
 }
 
 .cta-button:active {
-  transform: translateY(0);
+  transform: translateY(0) !important;
 }
 
 .footer {
-  padding: 2rem;
+  padding: 2rem 4rem;
   border-top: 1.5px solid var(--border);
   transition: var(--transition-theme);
 }
 
 .footer p {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: var(--text-muted);
   letter-spacing: 0.04em;
   transition: var(--transition-theme);
+}
+
+@media (max-width: 860px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5rem 2rem 4rem;
+    gap: 3rem;
+  }
+
+  .hero-image-wrap {
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 4 / 3;
+  }
+
+  .scroll-hint {
+    left: 2rem;
+  }
+
+  .features {
+    padding: 5rem 2rem;
+  }
+
+  .cta {
+    padding: 6rem 2rem;
+  }
+
+  .footer {
+    padding: 1.75rem 2rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -320,7 +437,7 @@ body {
 
   .features-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.1rem;
   }
 
   .cta {
@@ -335,10 +452,15 @@ body {
     top: 1rem;
     right: 1rem;
   }
+
+  .scroll-hint {
+    left: 1.5rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  .reveal,
+  .cta-button {
     transition: none;
     opacity: 1;
     transform: none;
