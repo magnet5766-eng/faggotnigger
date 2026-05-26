@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A clean, modern personal website.">
+  <title>My Site</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Tile background canvas -->
+  <canvas id="tileCanvas"></canvas>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"/>
+      <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </button>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow reveal">Welcome</p>
+      <h1 class="hero-title reveal">Your Name<br><span class="accent-text">Here.</span></h1>
+      <p class="hero-subtitle reveal">A short, punchy line about what you do or what this site is about. Make it yours.</p>
+      <a href="#features" class="hero-cta reveal">Explore ↓</a>
+    </div>
+    <div class="hero-image-wrap" id="tiltWrap">
+      <div class="hero-image-tilt" id="tiltInner">
+        <img src="img.png" alt="Feature image" class="hero-image" onerror="this.parentElement.parentElement.classList.add('img-missing')">
+        <div class="hero-image-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span>img.png</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <polyline points="19 12 12 19 5 12"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <p class="section-eyebrow reveal">What I Do</p>
+    <h2 class="section-title reveal">Built for <span class="accent-text">impact.</span></h2>
+    <div class="features-grid">
+
+      <article class="feature-card reveal">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Feature One</h3>
+        <p class="feature-desc">Describe your first key feature, skill, or offering here. Keep it concise and compelling.</p>
+      </article>
+
+      <article class="feature-card reveal">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Feature Two</h3>
+        <p class="feature-desc">Describe your second key feature or offering. What makes this stand out from the rest?</p>
+      </article>
+
+      <article class="feature-card reveal">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Feature Three</h3>
+        <p class="feature-desc">Your third highlight. Think of what your audience cares most about and speak to that.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-inner">
+      <h2 class="cta-title reveal">Ready to get<br><span class="accent-text">started?</span></h2>
+      <p class="cta-sub reveal">Don't wait — let's make something great together.</p>
+      <a href="#" class="cta-button reveal">Get in touch</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 Your Name. All rights reserved.</p>
+  </footer>
+
+  <script src="theme.js"></script>
+  <script src="smooth.js"></script>
+  <script src="tilt.js"></script>
+  <script src="scroll.js"></script>
+  <script src="tiles.js"></script>
+</body>
+</html>
