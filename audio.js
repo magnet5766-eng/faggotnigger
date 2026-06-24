@@ -1,20 +1,31 @@
 /* ─── Audio controller ──────────────────────────────────────────── */
 
 (function () {
+  const startOverlay = document.getElementById("startOverlay");
+  const startBtn     = document.getElementById("startBtn");
+
+  // ─── Start overlay — dismiss on first click, enabling audio ──────
+  function dismissOverlay() {
+    startOverlay.classList.add("hidden");
+    startOverlay.removeEventListener("click", dismissOverlay);
+  }
+  startOverlay.addEventListener("click", dismissOverlay);
 
   // ─── Per-card audio setup ────────────────────────────────────────
   document.querySelectorAll(".card[data-src]").forEach(card => {
-    const audio   = card.querySelector(".card-audio");
-    const playBtn = card.querySelector(".card-playpause");
-    const muteBtn = card.querySelector(".card-mute");
-    const slider  = card.querySelector(".card-vol-slider");
-    const fill    = card.querySelector(".card-vol-fill");
+    const audio     = card.querySelector(".card-audio");
+    const playBtn   = card.querySelector(".card-playpause");
+    const muteBtn   = card.querySelector(".card-mute");
+    const slider    = card.querySelector(".card-vol-slider");
+    const fill      = card.querySelector(".card-vol-fill");
 
     let lastVol = 1;
     audio.volume = 1;
 
+    // ── Play/Pause ────────────────────────────────────────────────
     playBtn.addEventListener("click", () => {
       if (audio.paused) {
+        // Pause all other cards first
         document.querySelectorAll(".card-audio").forEach(a => {
           if (a !== audio) {
             a.pause();
@@ -30,6 +41,7 @@
     audio.addEventListener("play",  () => playBtn.classList.add("playing"));
     audio.addEventListener("pause", () => playBtn.classList.remove("playing"));
 
+    // ── Volume slider ─────────────────────────────────────────────
     slider.addEventListener("input", () => {
       const val = parseFloat(slider.value);
       audio.volume = val / 100;
@@ -44,6 +56,7 @@
       }
     });
 
+    // ── Mute toggle ───────────────────────────────────────────────
     muteBtn.addEventListener("click", () => {
       if (audio.muted || audio.volume === 0) {
         audio.muted = false;
@@ -68,15 +81,17 @@
     }
   });
 
-  // ─── Smooth inertia scroll ────────────────────────────────────────
+  // ─── Smooth scroll for page div ───────────────────────────────────
+  // CSS scroll-behavior:smooth handles it, but this adds inertia
+  // for trackpads / mouse wheels that don't naturally smooth-scroll
   const page = document.getElementById("page");
-  let scrollTarget  = page.scrollTop;
+  let scrollTarget = page.scrollTop;
   let scrollCurrent = page.scrollTop;
   let rafId = null;
 
   page.addEventListener("wheel", e => {
     e.preventDefault();
-    scrollTarget += e.deltaY * 0.9;
+    scrollTarget += e.deltaY * 0.8;
     scrollTarget = Math.max(0, Math.min(scrollTarget, page.scrollHeight - page.clientHeight));
     if (!rafId) animateScroll();
   }, { passive: false });
@@ -89,50 +104,43 @@
       rafId = null;
       return;
     }
-    scrollCurrent += diff * 0.14;
+    scrollCurrent += diff * 0.1;
     page.scrollTop = scrollCurrent;
     rafId = requestAnimationFrame(animateScroll);
   }
 
-  // ─── Card entrance animation (staggered on load) ──────────────────
-  // Cards live inside overflow-x containers so IntersectionObserver
-  // with a vertical root can't reliably detect them. Instead we do a
-  // simple staggered entrance on page load, and let the hover lift
-  // handle the interactive feel.
-  const allCards = document.querySelectorAll(".card");
-  allCards.forEach(card => card.classList.add("card-animate"));
+  // ─── Scroll-aware fade: ease up in, ease out upward when scrolling back ─
+  const elementMap = new Map(); // el → { prevY }
 
-  // After one frame (so opacity:0 is painted), stagger them in
-  requestAnimationFrame(() => {
-    allCards.forEach((card, i) => {
-      setTimeout(() => card.classList.add("visible"), i * 60);
-    });
-  });
-
-  // ─── Title scroll-fade (titles ARE in the vertical scroll flow) ───
-  document.querySelectorAll(".artist-title").forEach(el => {
-    // start hidden
-    el.style.opacity = "0";
-    el.style.transform = "translateX(-20px)";
-  });
-
-  const titleObserver = new IntersectionObserver((entries) => {
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      const el   = entry.target;
+      const el = entry.target;
       const rect = entry.boundingClientRect;
-      const root = entry.rootBounds;
+      const rootRect = entry.rootBounds;
 
       if (entry.isIntersecting) {
-        el.classList.remove("hidden-above");
-        el.classList.add("visible");
+        // Coming into view — stagger cards
+        const delay = el.classList.contains("card")
+          ? Array.from(el.parentElement.children).indexOf(el) * 70
+          : 0;
+        setTimeout(() => {
+          el.classList.remove("hidden-above");
+          el.classList.add("visible");
+        }, delay);
       } else {
-        const isAbove = root && rect.bottom < root.top;
-        el.classList.remove("visible");
-        el.classList.toggle("hidden-above", isAbove);
+        // Left view — determine if above or below viewport
+        if (rootRect && rect.bottom < rootRect.top) {
+          // Scrolled past (element is above viewport) — fade out upward
+          el.classList.remove("visible");
+          el.classList.add("hidden-above");
+        } else {
+          // Below viewport — reset to default below-fold state
+          el.classList.remove("visible", "hidden-above");
+        }
       }
     });
-  }, { root: page, threshold: 0.2 });
+  }, { threshold: 0.12, root: page });
 
-  document.querySelectorAll(".artist-title").forEach(el => titleObserver.observe(el));
+  document.querySelectorAll(".artist-title, .card").forEach(el => observer.observe(el));
 
 })();
