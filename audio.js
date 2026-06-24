@@ -73,31 +73,10 @@
     }
   });
 
-  // ─── Smooth scroll (disabled in perf mode) ───────────────────────
-  let scrollTarget  = page.scrollTop;
-  let scrollCurrent = page.scrollTop;
-  let rafId = null;
-
-  page.addEventListener("wheel", e => {
-    if (isPerfMode()) return; // let browser handle it natively
-    e.preventDefault();
-    scrollTarget += e.deltaY; // 1:1 delta, no artificial amplification
-    scrollTarget = Math.max(0, Math.min(scrollTarget, page.scrollHeight - page.clientHeight));
-    if (!rafId) animateScroll();
-  }, { passive: false });
-
-  function animateScroll() {
-    const diff = scrollTarget - scrollCurrent;
-    if (Math.abs(diff) < 1) {
-      scrollCurrent = scrollTarget;
-      page.scrollTop = scrollTarget;
-      rafId = null;
-      return;
-    }
-    scrollCurrent += diff * 0.25; // was 0.1 — much snappier, still smooth
-    page.scrollTop = scrollCurrent;
-    rafId = requestAnimationFrame(animateScroll);
-  }
+  // ─── Smooth scroll ───────────────────────────────────────────────
+  // Handled natively by CSS scroll-behavior: smooth — no JS needed.
+  // The old JS RAF loop was causing lag on low-end devices by blocking
+  // the browser's GPU-accelerated native scroll with preventDefault.
 
   // ─── Scroll-aware fade (disabled in perf mode) ───────────────────
   const allFadeEls = document.querySelectorAll(".artist-title, .card");
@@ -144,8 +123,6 @@
       requestAnimationFrame(() => {
         if (isPerfMode()) {
           applyPerfModeVisibility();
-          // Cancel any in-flight smooth scroll
-          if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
           scrollTarget = scrollCurrent = page.scrollTop;
         }
         // On disabling perf mode: reset elements so observer re-animates them
