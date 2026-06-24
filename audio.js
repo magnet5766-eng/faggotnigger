@@ -81,30 +81,53 @@
   // ─── Scroll-aware fade (disabled in perf mode) ───────────────────
   const allFadeEls = document.querySelectorAll(".artist-title, .card");
 
+  // Pre-cache each card's index so we never do indexOf during scroll
+  allFadeEls.forEach(el => {
+    if (el.classList.contains("card")) {
+      el._staggerIndex = Array.from(el.parentElement.children).indexOf(el);
+    }
+  });
+
   function applyPerfModeVisibility() {
-    // In perf mode: make everything visible instantly, no observer needed
     allFadeEls.forEach(el => {
       el.classList.remove("hidden-above");
       el.classList.add("visible");
     });
   }
 
+  // Batch pending shows into one rAF to avoid per-element repaints
+  let pendingShow = [];
+  let showRaf = null;
+
+  function flushShow() {
+    pendingShow.forEach(el => {
+      el.classList.remove("hidden-above");
+      el.classList.add("visible");
+    });
+    pendingShow = [];
+    showRaf = null;
+  }
+
   const observer = new IntersectionObserver((entries) => {
-    if (isPerfMode()) return; // observer fires but we ignore it in perf mode
+    if (isPerfMode()) return;
     entries.forEach(entry => {
       const el = entry.target;
-      const rect = entry.boundingClientRect;
-      const rootRect = entry.rootBounds;
 
       if (entry.isIntersecting) {
-        const delay = el.classList.contains("card")
-          ? Array.from(el.parentElement.children).indexOf(el) * 35
-          : 0;
-        setTimeout(() => {
-          el.classList.remove("hidden-above");
-          el.classList.add("visible");
-        }, delay);
+        // Stagger cards via index offset in the batch flush
+        const delay = (el._staggerIndex || 0) * 30;
+        if (delay === 0) {
+          pendingShow.push(el);
+          if (!showRaf) showRaf = requestAnimationFrame(flushShow);
+        } else {
+          setTimeout(() => {
+            el.classList.remove("hidden-above");
+            el.classList.add("visible");
+          }, delay);
+        }
       } else {
+        const rect = entry.boundingClientRect;
+        const rootRect = entry.rootBounds;
         if (rootRect && rect.bottom < rootRect.top) {
           el.classList.remove("visible");
           el.classList.add("hidden-above");
@@ -113,39 +136,30 @@
         }
       }
     });
-  }, { threshold: 0.12, root: page });
+  }, { threshold: 0.08, root: page }); // lower threshold = fires earlier, less catch-up paint
 
-  // Watch for perf mode toggling so we can react in JS too
+  // Perf mode toggle handler
   const perfBtn = document.getElementById("perfBtn");
   if (perfBtn) {
     perfBtn.addEventListener("click", () => {
-      // Wait a tick for body class to update
       requestAnimationFrame(() => {
         if (isPerfMode()) {
           applyPerfModeVisibility();
-          scrollTarget = scrollCurrent = page.scrollTop;
-        }
-        // On disabling perf mode: reset elements so observer re-animates them
-        else {
-          allFadeEls.forEach(el => {
-            el.classList.remove("visible", "hidden-above");
-          });
-          // Re-trigger observer by nudging scroll
+        } else {
+          allFadeEls.forEach(el => el.classList.remove("visible", "hidden-above"));
           page.dispatchEvent(new Event("scroll"));
         }
       });
     });
   }
 
-  // Init: if perf mode was restored from localStorage, apply immediately
+  // Init
   if (isPerfMode()) {
     applyPerfModeVisibility();
   } else {
     allFadeEls.forEach(el => observer.observe(el));
   }
 
-  // When perf mode is OFF, make sure observer is running
-  // (re-observe after perf mode toggle handled above already calls reset)
   const bodyObserver = new MutationObserver(() => {
     if (!isPerfMode()) {
       allFadeEls.forEach(el => observer.observe(el));

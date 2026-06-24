@@ -66,7 +66,6 @@ canvas#neuro {
   letter-spacing: -0.02em;
   margin: 0 0 20px var(--side-pad);
   padding: 0;
-  will-change: transform, opacity;
   opacity: 0;
   transform: translateX(-20px);
   transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -113,7 +112,6 @@ canvas#neuro {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  will-change: transform, opacity;
   transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               opacity 0.28s ease,
               border-color 0.2s ease;
@@ -125,6 +123,7 @@ canvas#neuro {
 .card.visible {
   opacity: 1;
   transform: translateY(0);
+  will-change: auto;
 }
 
 .card.hidden-above {
@@ -178,7 +177,6 @@ canvas#neuro {
   object-fit: cover;
   transform: scale(1);
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
 }
 
 .card:hover .card-art-img {
