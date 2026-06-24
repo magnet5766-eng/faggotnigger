@@ -12,10 +12,8 @@ body, html {
 }
 
 /* ─── Typography ────────────────────────────────────────────────── */
-/* Google Sans isn't on Google Fonts directly; we approximate with Nunito
-   which is very close. Swap for the real font if you have a license. */
 :root {
-  --font: 'Nunito', 'Google Sans', 'Segoe UI', sans-serif;
+  --font: 'Google Sans', 'Segoe UI', sans-serif;
   --color-light: #FFF6F7;
   --color-accent-hover: rgb(160, 160, 255);
   --color-accent-active: rgb(160, 255, 255);
