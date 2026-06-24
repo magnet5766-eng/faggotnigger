@@ -59,13 +59,20 @@ canvas#neuro {
 }
 
 .hero-text {
-  width: 90%;
-  max-width: 900px;
+  /* width comes from .section > div (90%) — don't double-set it */
+  max-width: 560px;
+  margin-inline: auto;
   padding: 0.6em 1em 0.7em;
   border-radius: 20px;
   background: rgba(21, 25, 18, 0.18);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+  /* Hairline border catches light; layered shadows ground the box */
+  border: 1px solid rgba(255, 246, 247, 0.12);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
   /* Fade + rise animation on load */
   opacity: 0;
   transform: translateY(28px);
