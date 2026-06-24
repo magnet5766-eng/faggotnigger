@@ -4,12 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Neuro Noise</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <!-- Discord / Open Graph embed -->
+  <meta property="og:type"        content="website">
+  <meta property="og:site_name"   content="Neuro Noise Studios">
+  <meta property="og:title"       content="Neuro Noise">
+  <meta property="og:description" content="The official home of every Neuro Noise Studios diss track.">
+  <meta property="og:image"       content="icon.png">
+  <meta name="theme-color"        content="#151912">
+
+  <!-- Twitter card fallback -->
+  <meta name="twitter:card"        content="summary">
+  <meta name="twitter:title"       content="Neuro Noise">
+  <meta name="twitter:description" content="The official home of every Neuro Noise Studios diss track.">
+  <meta name="twitter:image"       content="icon.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+  <!-- Click-to-start overlay (required by browsers to allow autoplay) -->
+  <div class="start-overlay" id="startOverlay">
+    <button class="start-btn" id="startBtn" aria-label="Start">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 4.5L20 12L6 19.5V4.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <p class="start-label">Click to play</p>
+  </div>
 
   <!-- Audio -->
   <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
