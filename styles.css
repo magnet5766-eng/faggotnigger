@@ -61,6 +61,11 @@ canvas#neuro {
 .hero-text {
   width: 90%;
   max-width: 900px;
+  padding: 0.6em 1em 0.7em;
+  border-radius: 20px;
+  background: rgba(21, 25, 18, 0.18);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   /* Fade + rise animation on load */
   opacity: 0;
   transform: translateY(28px);
