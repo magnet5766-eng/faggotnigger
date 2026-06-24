@@ -109,19 +109,37 @@
     rafId = requestAnimationFrame(animateScroll);
   }
 
-  // ─── Intersection observer for fade-in animations ─────────────────
+  // ─── Scroll-aware fade: ease up in, ease out upward when scrolling back ─
+  const elementMap = new Map(); // el → { prevY }
+
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
+    entries.forEach(entry => {
+      const el = entry.target;
+      const rect = entry.boundingClientRect;
+      const rootRect = entry.rootBounds;
+
       if (entry.isIntersecting) {
-        // stagger cards within a row
-        const delay = entry.target.classList.contains("card")
-          ? Array.from(entry.target.parentElement.children).indexOf(entry.target) * 80
+        // Coming into view — stagger cards
+        const delay = el.classList.contains("card")
+          ? Array.from(el.parentElement.children).indexOf(el) * 70
           : 0;
-        setTimeout(() => entry.target.classList.add("visible"), delay);
-        observer.unobserve(entry.target);
+        setTimeout(() => {
+          el.classList.remove("hidden-above");
+          el.classList.add("visible");
+        }, delay);
+      } else {
+        // Left view — determine if above or below viewport
+        if (rootRect && rect.bottom < rootRect.top) {
+          // Scrolled past (element is above viewport) — fade out upward
+          el.classList.remove("visible");
+          el.classList.add("hidden-above");
+        } else {
+          // Below viewport — reset to default below-fold state
+          el.classList.remove("visible", "hidden-above");
+        }
       }
     });
-  }, { threshold: 0.1, root: page });
+  }, { threshold: 0.12, root: page });
 
   document.querySelectorAll(".artist-title, .card").forEach(el => observer.observe(el));
 

@@ -66,14 +66,20 @@ canvas#neuro {
   letter-spacing: -0.02em;
   margin: 0 0 20px var(--side-pad);
   padding: 0;
+  will-change: transform, opacity;
   opacity: 0;
   transform: translateX(-20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .artist-title.visible {
   opacity: 1;
   transform: translateX(0);
+}
+
+.artist-title.hidden-above {
+  opacity: 0;
+  transform: translateX(-20px);
 }
 
 /* ─── Horizontal card track ─────────────────────────────────────── */
@@ -104,16 +110,16 @@ canvas#neuro {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 0.25s ease,
-              border-color 0.25s ease;
+  will-change: transform, opacity;
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.45s ease,
+              border-color 0.3s ease;
   cursor: default;
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(28px);
 }
 
 .card.visible {
@@ -121,10 +127,14 @@ canvas#neuro {
   transform: translateY(0);
 }
 
+.card.hidden-above {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
 .card:not(.card--placeholder):hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
-  border-color: rgba(255,246,247,0.22);
+  transform: translateY(-5px);
+  border-color: rgba(255,246,247,0.24);
 }
 
 .card--placeholder {
@@ -133,12 +143,17 @@ canvas#neuro {
 }
 
 .card--placeholder.visible {
-  opacity: 0.45;
+  opacity: 0.42;
   transform: translateY(0);
 }
 
+.card--placeholder.hidden-above {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
 .card--placeholder:hover {
-  opacity: 0.6 !important;
+  opacity: 0.58 !important;
 }
 
 /* ─── Card art area ──────────────────────────────────────────────── */
@@ -371,15 +386,6 @@ canvas#neuro {
 .start-btn:hover {
   transform: scale(1.1);
   background: rgba(255, 246, 247, 0.18);
-}
-
-.start-label {
-  margin: 0;
-  font-family: var(--font);
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255, 246, 247, 0.45);
 }
 
 @keyframes pulseRing {
