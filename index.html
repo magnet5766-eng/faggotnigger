@@ -40,7 +40,6 @@
     <span class="perf-label">Performance Mode</span>
   </button>
 
-  <canvas id="neuro"></canvas>
 
   <!-- Main scrollable content -->
   <div class="page" id="page">
@@ -237,70 +236,6 @@
 
   </div><!-- /page -->
 
-  <!-- Shaders -->
-  <script id="vertShader" type="x-shader/x-vertex">
-    precision mediump float;
-    varying vec2 vUv;
-    attribute vec2 a_position;
-    void main() {
-      vUv = .5 * (a_position + 1.);
-      gl_Position = vec4(a_position, 0.0, 1.0);
-    }
-  </script>
-
-  <script id="fragShader" type="x-shader/x-fragment">
-    precision mediump float;
-    varying vec2 vUv;
-    uniform float u_time;
-    uniform float u_ratio;
-    uniform vec2 u_pointer_position;
-    uniform float u_scroll_progress;
-
-    const float ROT_C = 0.5403023059;
-    const float ROT_S = 0.8414709848;
-
-    vec2 rotate(vec2 uv) {
-      return vec2(ROT_C * uv.x + ROT_S * uv.y,
-                 -ROT_S * uv.x + ROT_C * uv.y);
-    }
-
-    float neuro_shape(vec2 uv, float t, float p) {
-      vec2 sine_acc = vec2(0.);
-      vec2 res = vec2(0.);
-      float scale = 8.;
-      float scaleMul = 1.2 - 0.07 * p;
-      for (int j = 0; j < 15; j++) {
-        uv = rotate(uv);
-        sine_acc = rotate(sine_acc);
-        vec2 layer = uv * scale + float(j) + sine_acc - t;
-        sine_acc += sin(layer);
-        res += (.5 + .5 * cos(layer)) / scale;
-        scale *= scaleMul;
-      }
-      return res.x + res.y;
-    }
-
-    void main() {
-      vec2 uv = .5 * vUv;
-      uv.x *= u_ratio;
-      highp vec2 pointer = vUv - u_pointer_position;
-      pointer.x *= u_ratio;
-      highp float dist = length(pointer);
-      float d = clamp(float(dist), 0., 1.);
-      float p = 0.5 * (1.0 - d) * (1.0 - d) * (1.0 - d * 0.5);
-      float t = .001 * u_time;
-      vec3 color = vec3(0.);
-      float noise = neuro_shape(uv, t, p);
-      noise = 1.2 * pow(noise, 3.);
-      noise += pow(noise, 10.);
-      noise = max(.0, noise - .5);
-      noise *= (1. - length(vUv - .5));
-      color = normalize(vec3(.2, .5 + .4 * cos(3. * u_scroll_progress), .5 + .5 * sin(3. * u_scroll_progress)));
-      color = color * noise;
-      gl_FragColor = vec4(color, noise);
-    }
-  </script>
-
   <script>
     // ─── Performance Mode ──────────────────────────────────────────
     (function () {
@@ -354,6 +289,5 @@
   </script>
 
   <script src="audio.js"></script>
-  <script src="script.js"></script>
 </body>
 </html>
