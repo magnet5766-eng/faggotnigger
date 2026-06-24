@@ -81,62 +81,69 @@
   // ─── Scroll-aware fade (disabled in perf mode) ───────────────────
   const allFadeEls = document.querySelectorAll(".artist-title, .card");
 
-  // Pre-cache each card's index so we never do indexOf during scroll
+  // Pre-cache stagger index once so we never touch the DOM during scroll
   allFadeEls.forEach(el => {
     if (el.classList.contains("card")) {
       el._staggerIndex = Array.from(el.parentElement.children).indexOf(el);
     }
+    el._showTimer = null; // track pending timer so we can cancel it
   });
 
   function applyPerfModeVisibility() {
     allFadeEls.forEach(el => {
+      if (el._showTimer) { clearTimeout(el._showTimer); el._showTimer = null; }
       el.classList.remove("hidden-above");
       el.classList.add("visible");
     });
   }
 
-  // Batch pending shows into one rAF to avoid per-element repaints
-  let pendingShow = [];
-  let showRaf = null;
-
-  function flushShow() {
-    pendingShow.forEach(el => {
-      el.classList.remove("hidden-above");
-      el.classList.add("visible");
-    });
-    pendingShow = [];
-    showRaf = null;
+  function showEl(el) {
+    el.classList.remove("hidden-above");
+    el.classList.add("visible");
+    el._showTimer = null;
   }
 
+  function hideEl(el, above) {
+    // Cancel any pending show timer first — fixes fast-scroll ghost cards
+    if (el._showTimer) { clearTimeout(el._showTimer); el._showTimer = null; }
+    if (above) {
+      el.classList.remove("visible");
+      el.classList.add("hidden-above");
+    } else {
+      el.classList.remove("visible", "hidden-above");
+    }
+  }
+
+  // Use rootMargin to create hysteresis:
+  // Elements trigger "intersecting" a little before they're visible (50px early),
+  // so the fade finishes by the time they're fully on screen.
+  // This also prevents the edge-flicker where a card sitting right at the
+  // threshold boundary keeps toggling in/out.
   const observer = new IntersectionObserver((entries) => {
     if (isPerfMode()) return;
     entries.forEach(entry => {
       const el = entry.target;
-
       if (entry.isIntersecting) {
-        // Stagger cards via index offset in the batch flush
         const delay = (el._staggerIndex || 0) * 30;
         if (delay === 0) {
-          pendingShow.push(el);
-          if (!showRaf) showRaf = requestAnimationFrame(flushShow);
+          showEl(el);
         } else {
-          setTimeout(() => {
-            el.classList.remove("hidden-above");
-            el.classList.add("visible");
-          }, delay);
+          // Only set timer if not already visible (prevents re-triggering)
+          if (!el.classList.contains("visible") && !el._showTimer) {
+            el._showTimer = setTimeout(() => showEl(el), delay);
+          }
         }
       } else {
         const rect = entry.boundingClientRect;
         const rootRect = entry.rootBounds;
-        if (rootRect && rect.bottom < rootRect.top) {
-          el.classList.remove("visible");
-          el.classList.add("hidden-above");
-        } else {
-          el.classList.remove("visible", "hidden-above");
-        }
+        hideEl(el, rootRect && rect.bottom < rootRect.top);
       }
     });
-  }, { threshold: 0.08, root: page }); // lower threshold = fires earlier, less catch-up paint
+  }, {
+    threshold: 0,           // fire as soon as any pixel enters/leaves
+    rootMargin: "50px 0px", // start fade-in 50px before element reaches viewport
+    root: page
+  });
 
   // Perf mode toggle handler
   const perfBtn = document.getElementById("perfBtn");

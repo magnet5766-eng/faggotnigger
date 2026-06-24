@@ -30,6 +30,7 @@ canvas#neuro {
   pointer-events: none;
   opacity: 0.95;
   z-index: 0;
+  will-change: transform; /* keeps canvas on its own GPU layer, isolated from card repaints */
 }
 
 /* ─── Page scroll container ─────────────────────────────────────── */
