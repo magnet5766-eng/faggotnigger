@@ -2,8 +2,6 @@
 
 (function () {
   const page = document.getElementById("page");
-  const isPerfMode = () => document.body.classList.contains("perf-mode");
-
   // ─── Per-card audio setup ────────────────────────────────────────
   document.querySelectorAll(".card[data-src]").forEach(card => {
     const audio     = card.querySelector(".card-audio");
@@ -78,7 +76,7 @@
   // The old JS RAF loop was causing lag on low-end devices by blocking
   // the browser's GPU-accelerated native scroll with preventDefault.
 
-  // ─── Scroll-aware fade (disabled in perf mode) ───────────────────
+  // ─── Scroll-aware fade ───────────────────────────────────────────
   const allFadeEls = document.querySelectorAll(".artist-title, .card");
 
   // Pre-cache stagger index once so we never touch the DOM during scroll
@@ -88,14 +86,6 @@
     }
     el._showTimer = null; // track pending timer so we can cancel it
   });
-
-  function applyPerfModeVisibility() {
-    allFadeEls.forEach(el => {
-      if (el._showTimer) { clearTimeout(el._showTimer); el._showTimer = null; }
-      el.classList.remove("hidden-above");
-      el.classList.add("visible");
-    });
-  }
 
   function showEl(el) {
     el.classList.remove("hidden-above");
@@ -120,7 +110,6 @@
   // This also prevents the edge-flicker where a card sitting right at the
   // threshold boundary keeps toggling in/out.
   const observer = new IntersectionObserver((entries) => {
-    if (isPerfMode()) return;
     entries.forEach(entry => {
       const el = entry.target;
       if (entry.isIntersecting) {
@@ -145,33 +134,8 @@
     root: page
   });
 
-  // Perf mode toggle handler
-  const perfBtn = document.getElementById("perfBtn");
-  if (perfBtn) {
-    perfBtn.addEventListener("click", () => {
-      requestAnimationFrame(() => {
-        if (isPerfMode()) {
-          applyPerfModeVisibility();
-        } else {
-          allFadeEls.forEach(el => el.classList.remove("visible", "hidden-above"));
-          page.dispatchEvent(new Event("scroll"));
-        }
-      });
-    });
-  }
-
   // Init
-  if (isPerfMode()) {
-    applyPerfModeVisibility();
-  } else {
-    allFadeEls.forEach(el => observer.observe(el));
-  }
+  allFadeEls.forEach(el => observer.observe(el));
 
-  const bodyObserver = new MutationObserver(() => {
-    if (!isPerfMode()) {
-      allFadeEls.forEach(el => observer.observe(el));
-    }
-  });
-  bodyObserver.observe(document.body, { attributes: true, attributeFilter: ["class"] });
 
 })();

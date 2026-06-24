@@ -32,14 +32,6 @@
 </head>
 <body>
 
-  <!-- Performance Mode toggle -->
-  <button class="perf-btn" id="perfBtn" aria-label="Toggle Performance Mode" title="Performance Mode">
-    <svg class="perf-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M13 2L4.09 12.11A1 1 0 0 0 5 13.76h5.5L10 22l9.91-10.11A1 1 0 0 0 19 10.24h-5.5L13 2Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-    </svg>
-    <span class="perf-label">Performance Mode</span>
-  </button>
-
 
   <!-- Main scrollable content -->
   <div class="page" id="page">
@@ -235,58 +227,6 @@
     </section>
 
   </div><!-- /page -->
-
-  <script>
-    // ─── Performance Mode ──────────────────────────────────────────
-    (function () {
-      const btn = document.getElementById("perfBtn");
-      const STORAGE_KEY = "neuroNoisePerfMode";
-
-      // Injected <style> tag — guaranteed highest cascade priority
-      const perfStyle = document.createElement("style");
-      perfStyle.id = "perf-mode-style";
-      perfStyle.textContent = `
-        *, *::before, *::after {
-          transition-duration: 0s !important;
-          transition-delay: 0s !important;
-          animation-duration: 0s !important;
-          animation-delay: 0s !important;
-          will-change: auto !important;
-        }
-        .artist-title, .card {
-          opacity: 1 !important;
-          transform: none !important;
-        }
-        .card-art-img { transform: none !important; }
-        .card-btn:hover, .card-btn:active,
-        .perf-btn:hover, .perf-btn:active { transform: none !important; }
-      `;
-      document.head.appendChild(perfStyle);
-      perfStyle.disabled = true; // off by default
-
-      function setPerf(enabled) {
-        perfStyle.disabled = !enabled;
-        if (enabled) {
-          document.body.classList.add("perf-mode");
-          btn.classList.add("active");
-          btn.querySelector(".perf-label").textContent = "Performance Mode: On";
-          localStorage.setItem(STORAGE_KEY, "1");
-        } else {
-          document.body.classList.remove("perf-mode");
-          btn.classList.remove("active");
-          btn.querySelector(".perf-label").textContent = "Performance Mode";
-          localStorage.removeItem(STORAGE_KEY);
-        }
-      }
-
-      btn.addEventListener("click", () => {
-        setPerf(!document.body.classList.contains("perf-mode"));
-      });
-
-      // Restore saved preference
-      if (localStorage.getItem(STORAGE_KEY)) setPerf(true);
-    })();
-  </script>
 
   <script src="audio.js"></script>
 </body>
