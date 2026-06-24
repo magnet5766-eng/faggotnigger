@@ -57,7 +57,7 @@
           </div>
           <div class="card-info">
             <p class="card-name">Xander Diss</p>
-            <p class="card-meta">prod. by Paul Matson</p>
+            <p class="card-meta">prod. by Neuro Noise</p>
           </div>
           <div class="card-controls">
             <button class="card-btn card-playpause" aria-label="Play">
@@ -126,7 +126,50 @@
     <section class="artist-row">
       <h2 class="artist-title">Bailey Diss Tracks</h2>
       <div class="cards-track">
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <!-- Bailey real card -->
+        <div class="card" data-src="bailey1.mp3">
+          <div class="card-art">
+            <img class="card-art-img" src="bailey1.png" alt="Bailey Diss cover art" draggable="false">
+          </div>
+          <div class="card-info">
+            <p class="card-name">Bailey Diss</p>
+            <p class="card-meta">prod. by Neuro Noise</p>
+          </div>
+          <div class="card-controls">
+            <button class="card-btn card-playpause" aria-label="Play">
+              <svg class="icon icon-play" viewBox="0 0 24 24" fill="none">
+                <path d="M6 4.5L20 12L6 19.5V4.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+              </svg>
+              <svg class="icon icon-pause" viewBox="0 0 24 24" fill="none">
+                <rect x="5" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
+                <rect x="15" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
+              </svg>
+            </button>
+            <div class="card-vol-wrap">
+              <button class="card-btn card-mute" aria-label="Mute">
+                <svg class="icon icon-vol-high" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                  <path d="M16.5 7.5C17.9 8.9 18.8 10.4 18.8 12C18.8 13.6 17.9 15.1 16.5 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M19.5 5C21.8 7.3 23 9.6 23 12C23 14.4 21.8 16.7 19.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <svg class="icon icon-vol-low" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                  <path d="M16.5 8.5C17.6 9.6 18.3 10.7 18.3 12C18.3 13.3 17.6 14.4 16.5 15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <svg class="icon icon-vol-mute" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                  <path d="M17 9L22 15M22 9L17 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <div class="card-vol-slider-wrap">
+                <div class="card-vol-track"><div class="card-vol-fill"></div></div>
+                <input type="range" class="card-vol-slider" min="0" max="100" value="100" aria-label="Volume">
+              </div>
+            </div>
+          </div>
+          <audio class="card-audio" src="bailey1.mp3" preload="none"></audio>
+        </div>
+
         <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
         <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
       </div>
@@ -264,7 +307,30 @@
       const btn = document.getElementById("perfBtn");
       const STORAGE_KEY = "neuroNoisePerfMode";
 
+      // Injected <style> tag — guaranteed highest cascade priority
+      const perfStyle = document.createElement("style");
+      perfStyle.id = "perf-mode-style";
+      perfStyle.textContent = `
+        *, *::before, *::after {
+          transition-duration: 0s !important;
+          transition-delay: 0s !important;
+          animation-duration: 0s !important;
+          animation-delay: 0s !important;
+          will-change: auto !important;
+        }
+        .artist-title, .card {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+        .card-art-img { transform: none !important; }
+        .card-btn:hover, .card-btn:active,
+        .perf-btn:hover, .perf-btn:active { transform: none !important; }
+      `;
+      document.head.appendChild(perfStyle);
+      perfStyle.disabled = true; // off by default
+
       function setPerf(enabled) {
+        perfStyle.disabled = !enabled;
         if (enabled) {
           document.body.classList.add("perf-mode");
           btn.classList.add("active");
