@@ -69,7 +69,7 @@ canvas#neuro {
   will-change: transform, opacity;
   opacity: 0;
   transform: translateX(-20px);
-  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .artist-title.visible {
@@ -114,9 +114,9 @@ canvas#neuro {
   display: flex;
   flex-direction: column;
   will-change: transform, opacity;
-  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              opacity 0.45s ease,
-              border-color 0.3s ease;
+  transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.28s ease,
+              border-color 0.2s ease;
   cursor: default;
   opacity: 0;
   transform: translateY(28px);
@@ -177,7 +177,7 @@ canvas#neuro {
   height: 100%;
   object-fit: cover;
   transform: scale(1);
-  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
 }
 

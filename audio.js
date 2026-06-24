@@ -81,20 +81,20 @@
   page.addEventListener("wheel", e => {
     if (isPerfMode()) return; // let browser handle it natively
     e.preventDefault();
-    scrollTarget += e.deltaY * 0.8;
+    scrollTarget += e.deltaY; // 1:1 delta, no artificial amplification
     scrollTarget = Math.max(0, Math.min(scrollTarget, page.scrollHeight - page.clientHeight));
     if (!rafId) animateScroll();
   }, { passive: false });
 
   function animateScroll() {
     const diff = scrollTarget - scrollCurrent;
-    if (Math.abs(diff) < 0.5) {
+    if (Math.abs(diff) < 1) {
       scrollCurrent = scrollTarget;
       page.scrollTop = scrollTarget;
       rafId = null;
       return;
     }
-    scrollCurrent += diff * 0.1;
+    scrollCurrent += diff * 0.25; // was 0.1 — much snappier, still smooth
     page.scrollTop = scrollCurrent;
     rafId = requestAnimationFrame(animateScroll);
   }
@@ -119,7 +119,7 @@
 
       if (entry.isIntersecting) {
         const delay = el.classList.contains("card")
-          ? Array.from(el.parentElement.children).indexOf(el) * 70
+          ? Array.from(el.parentElement.children).indexOf(el) * 35
           : 0;
         setTimeout(() => {
           el.classList.remove("hidden-above");
