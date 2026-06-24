@@ -1,15 +1,6 @@
 /* ─── Audio controller ──────────────────────────────────────────── */
 
 (function () {
-  const startOverlay = document.getElementById("startOverlay");
-  const startBtn     = document.getElementById("startBtn");
-
-  // ─── Start overlay — dismiss on first click, enabling audio ──────
-  function dismissOverlay() {
-    startOverlay.classList.add("hidden");
-    startOverlay.removeEventListener("click", dismissOverlay);
-  }
-  startOverlay.addEventListener("click", dismissOverlay);
 
   // ─── Per-card audio setup ────────────────────────────────────────
   document.querySelectorAll(".card[data-src]").forEach(card => {
@@ -25,7 +16,6 @@
     // ── Play/Pause ────────────────────────────────────────────────
     playBtn.addEventListener("click", () => {
       if (audio.paused) {
-        // Pause all other cards first
         document.querySelectorAll(".card-audio").forEach(a => {
           if (a !== audio) {
             a.pause();
@@ -81,17 +71,15 @@
     }
   });
 
-  // ─── Smooth scroll for page div ───────────────────────────────────
-  // CSS scroll-behavior:smooth handles it, but this adds inertia
-  // for trackpads / mouse wheels that don't naturally smooth-scroll
+  // ─── Smooth inertia scroll ────────────────────────────────────────
   const page = document.getElementById("page");
-  let scrollTarget = page.scrollTop;
+  let scrollTarget  = page.scrollTop;
   let scrollCurrent = page.scrollTop;
   let rafId = null;
 
   page.addEventListener("wheel", e => {
     e.preventDefault();
-    scrollTarget += e.deltaY * 0.8;
+    scrollTarget += e.deltaY * 0.9;
     scrollTarget = Math.max(0, Math.min(scrollTarget, page.scrollHeight - page.clientHeight));
     if (!rafId) animateScroll();
   }, { passive: false });
@@ -104,43 +92,66 @@
       rafId = null;
       return;
     }
-    scrollCurrent += diff * 0.1;
+    scrollCurrent += diff * 0.14;
     page.scrollTop = scrollCurrent;
     rafId = requestAnimationFrame(animateScroll);
   }
 
-  // ─── Scroll-aware fade: ease up in, ease out upward when scrolling back ─
-  const elementMap = new Map(); // el → { prevY }
+  // ─── Scroll-aware fade animations ─────────────────────────────────
+  // We observe .artist-row sections for vertical scroll visibility,
+  // then animate both the title and cards inside each row.
+  // Cards in horizontal tracks can't be reliably observed individually
+  // since they're inside overflow-x containers, so we drive them from
+  // their parent row's intersection state.
 
-  const observer = new IntersectionObserver((entries) => {
+  // Initial hidden state — set via JS so elements are visible if JS fails
+  document.querySelectorAll(".artist-title").forEach(el => {
+    el.classList.remove("visible", "hidden-above");
+  });
+  document.querySelectorAll(".card").forEach(el => {
+    el.classList.remove("visible", "hidden-above");
+  });
+
+  const rowObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      const el = entry.target;
-      const rect = entry.boundingClientRect;
-      const rootRect = entry.rootBounds;
+      const row   = entry.target;
+      const title = row.querySelector(".artist-title");
+      const cards = Array.from(row.querySelectorAll(".card"));
+      const rect  = entry.boundingClientRect;
+      const root  = entry.rootBounds;
 
       if (entry.isIntersecting) {
-        // Coming into view — stagger cards
-        const delay = el.classList.contains("card")
-          ? Array.from(el.parentElement.children).indexOf(el) * 70
-          : 0;
-        setTimeout(() => {
-          el.classList.remove("hidden-above");
-          el.classList.add("visible");
-        }, delay);
-      } else {
-        // Left view — determine if above or below viewport
-        if (rootRect && rect.bottom < rootRect.top) {
-          // Scrolled past (element is above viewport) — fade out upward
-          el.classList.remove("visible");
-          el.classList.add("hidden-above");
-        } else {
-          // Below viewport — reset to default below-fold state
-          el.classList.remove("visible", "hidden-above");
+        // Row entering — slide title in, stagger cards
+        if (title) {
+          title.classList.remove("hidden-above");
+          title.classList.add("visible");
         }
+        cards.forEach((card, i) => {
+          setTimeout(() => {
+            card.classList.remove("hidden-above");
+            card.classList.add("visible");
+          }, i * 70);
+        });
+      } else {
+        const isAbove = root && rect.bottom < root.top;
+        if (title) {
+          title.classList.toggle("hidden-above", isAbove);
+          title.classList.toggle("visible",      false);
+          if (!isAbove) title.classList.remove("hidden-above");
+        }
+        cards.forEach(card => {
+          card.classList.toggle("hidden-above", isAbove);
+          card.classList.toggle("visible",      false);
+          if (!isAbove) card.classList.remove("hidden-above");
+        });
       }
     });
-  }, { threshold: 0.12, root: page });
+  }, {
+    root: page,
+    threshold: 0.05,   // fire as soon as 5% of the row is visible
+    rootMargin: "0px"
+  });
 
-  document.querySelectorAll(".artist-title, .card").forEach(el => observer.observe(el));
+  document.querySelectorAll(".artist-row").forEach(row => rowObserver.observe(row));
 
 })();
