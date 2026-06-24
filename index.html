@@ -120,22 +120,29 @@
     uniform vec2 u_pointer_position;
     uniform float u_scroll_progress;
 
-    vec2 rotate(vec2 uv, float th) {
-      return mat2(cos(th), sin(th), -sin(th), cos(th)) * uv;
+    // Precomputed rotation constants for angle = 1.0 rad
+    // Avoids calling cos/sin 15× per pixel per frame
+    const float ROT_C = 0.5403023059;
+    const float ROT_S = 0.8414709848;
+
+    vec2 rotate(vec2 uv) {
+      return vec2(ROT_C * uv.x + ROT_S * uv.y,
+                 -ROT_S * uv.x + ROT_C * uv.y);
     }
 
     float neuro_shape(vec2 uv, float t, float p) {
       vec2 sine_acc = vec2(0.);
       vec2 res = vec2(0.);
       float scale = 8.;
+      float scaleMul = 1.2 - 0.07 * p; // constant per pixel, hoist out of loop
 
       for (int j = 0; j < 15; j++) {
-        uv = rotate(uv, 1.);
-        sine_acc = rotate(sine_acc, 1.);
+        uv = rotate(uv);
+        sine_acc = rotate(sine_acc);
         vec2 layer = uv * scale + float(j) + sine_acc - t;
         sine_acc += sin(layer);
         res += (.5 + .5 * cos(layer)) / scale;
-        scale *= (1.2 - .07 * p);
+        scale *= scaleMul;
       }
       return res.x + res.y;
     }
@@ -144,10 +151,16 @@
       vec2 uv = .5 * vUv;
       uv.x *= u_ratio;
 
-      vec2 pointer = vUv - u_pointer_position;
+      // Use higher precision for pointer distance to avoid spiral artifacts
+      // on lower-end GPUs (mediump loses ~3 decimal places of precision)
+      highp vec2 pointer = vUv - u_pointer_position;
       pointer.x *= u_ratio;
-      float p = clamp(length(pointer), 0., 1.);
-      p = .5 * pow(1. - p, 2.);
+      highp float dist = length(pointer);
+
+      // Smooth cubic falloff — eliminates the hard transition ring that
+      // causes the visible spiral on Chromebook / integrated graphics
+      float d = clamp(float(dist), 0., 1.);
+      float p = 0.5 * (1.0 - d) * (1.0 - d) * (1.0 - d * 0.5);
 
       float t = .001 * u_time;
       vec3 color = vec3(0.);
