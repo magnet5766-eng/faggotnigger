@@ -1,6 +1,8 @@
 /* ─── Audio controller ──────────────────────────────────────────── */
 
 (function () {
+  const page = document.getElementById("page");
+  const isPerfMode = () => document.body.classList.contains("perf-mode");
 
   // ─── Per-card audio setup ────────────────────────────────────────
   document.querySelectorAll(".card[data-src]").forEach(card => {
@@ -16,7 +18,6 @@
     // ── Play/Pause ────────────────────────────────────────────────
     playBtn.addEventListener("click", () => {
       if (audio.paused) {
-        // Pause all other cards first
         document.querySelectorAll(".card-audio").forEach(a => {
           if (a !== audio) {
             a.pause();
@@ -72,15 +73,13 @@
     }
   });
 
-  // ─── Smooth scroll for page div ───────────────────────────────────
-  // CSS scroll-behavior:smooth handles it, but this adds inertia
-  // for trackpads / mouse wheels that don't naturally smooth-scroll
-  const page = document.getElementById("page");
-  let scrollTarget = page.scrollTop;
+  // ─── Smooth scroll (disabled in perf mode) ───────────────────────
+  let scrollTarget  = page.scrollTop;
   let scrollCurrent = page.scrollTop;
   let rafId = null;
 
   page.addEventListener("wheel", e => {
+    if (isPerfMode()) return; // let browser handle it natively
     e.preventDefault();
     scrollTarget += e.deltaY * 0.8;
     scrollTarget = Math.max(0, Math.min(scrollTarget, page.scrollHeight - page.clientHeight));
@@ -100,17 +99,25 @@
     rafId = requestAnimationFrame(animateScroll);
   }
 
-  // ─── Scroll-aware fade: ease up in, ease out upward when scrolling back ─
-  const elementMap = new Map(); // el → { prevY }
+  // ─── Scroll-aware fade (disabled in perf mode) ───────────────────
+  const allFadeEls = document.querySelectorAll(".artist-title, .card");
+
+  function applyPerfModeVisibility() {
+    // In perf mode: make everything visible instantly, no observer needed
+    allFadeEls.forEach(el => {
+      el.classList.remove("hidden-above");
+      el.classList.add("visible");
+    });
+  }
 
   const observer = new IntersectionObserver((entries) => {
+    if (isPerfMode()) return; // observer fires but we ignore it in perf mode
     entries.forEach(entry => {
       const el = entry.target;
       const rect = entry.boundingClientRect;
       const rootRect = entry.rootBounds;
 
       if (entry.isIntersecting) {
-        // Coming into view — stagger cards
         const delay = el.classList.contains("card")
           ? Array.from(el.parentElement.children).indexOf(el) * 70
           : 0;
@@ -119,19 +126,54 @@
           el.classList.add("visible");
         }, delay);
       } else {
-        // Left view — determine if above or below viewport
         if (rootRect && rect.bottom < rootRect.top) {
-          // Scrolled past (element is above viewport) — fade out upward
           el.classList.remove("visible");
           el.classList.add("hidden-above");
         } else {
-          // Below viewport — reset to default below-fold state
           el.classList.remove("visible", "hidden-above");
         }
       }
     });
   }, { threshold: 0.12, root: page });
 
-  document.querySelectorAll(".artist-title, .card").forEach(el => observer.observe(el));
+  // Watch for perf mode toggling so we can react in JS too
+  const perfBtn = document.getElementById("perfBtn");
+  if (perfBtn) {
+    perfBtn.addEventListener("click", () => {
+      // Wait a tick for body class to update
+      requestAnimationFrame(() => {
+        if (isPerfMode()) {
+          applyPerfModeVisibility();
+          // Cancel any in-flight smooth scroll
+          if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+          scrollTarget = scrollCurrent = page.scrollTop;
+        }
+        // On disabling perf mode: reset elements so observer re-animates them
+        else {
+          allFadeEls.forEach(el => {
+            el.classList.remove("visible", "hidden-above");
+          });
+          // Re-trigger observer by nudging scroll
+          page.dispatchEvent(new Event("scroll"));
+        }
+      });
+    });
+  }
+
+  // Init: if perf mode was restored from localStorage, apply immediately
+  if (isPerfMode()) {
+    applyPerfModeVisibility();
+  } else {
+    allFadeEls.forEach(el => observer.observe(el));
+  }
+
+  // When perf mode is OFF, make sure observer is running
+  // (re-observe after perf mode toggle handled above already calls reset)
+  const bodyObserver = new MutationObserver(() => {
+    if (!isPerfMode()) {
+      allFadeEls.forEach(el => observer.observe(el));
+    }
+  });
+  bodyObserver.observe(document.body, { attributes: true, attributeFilter: ["class"] });
 
 })();

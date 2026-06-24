@@ -433,6 +433,45 @@ body.perf-mode {
   background-color: #151912;
 }
 
+/* Kill all transitions, animations, transforms in perf mode */
+body.perf-mode *,
+body.perf-mode *::before,
+body.perf-mode *::after {
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Scroll-fade elements: always show, never hide */
+body.perf-mode .artist-title,
+body.perf-mode .card {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* No hover lift on cards */
+body.perf-mode .card:not(.card--placeholder):hover {
+  transform: none !important;
+}
+
+/* No image zoom on hover */
+body.perf-mode .card-art-img {
+  transform: none !important;
+}
+
+/* No button scale effects */
+body.perf-mode .card-btn:hover,
+body.perf-mode .card-btn:active,
+body.perf-mode .perf-btn:hover,
+body.perf-mode .perf-btn:active {
+  transform: none !important;
+}
+
+/* Vol slider thumb */
+body.perf-mode .card-vol-slider::-webkit-slider-thumb:hover {
+  transform: none !important;
+}
+
 /* ─── Responsive: hide label on very small screens ───────────────── */
 @media (max-width: 400px) {
   .perf-btn .perf-label { display: none; }
