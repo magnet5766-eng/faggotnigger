@@ -5,7 +5,7 @@ body, html {
   margin: 0;
   padding: 0;
   background-color: #151912;
-  overflow: hidden; /* page div handles all scrolling */
+  overflow: hidden;
 }
 
 /* ─── Variables ─────────────────────────────────────────────────── */
@@ -41,7 +41,6 @@ canvas#neuro {
   overflow-x: hidden;
   scroll-behavior: smooth;
   padding: 56px 0 80px;
-  /* custom scrollbar */
   scrollbar-width: thin;
   scrollbar-color: rgba(255,246,247,0.18) transparent;
 }
@@ -58,6 +57,7 @@ canvas#neuro {
   margin-bottom: var(--row-gap);
 }
 
+/* ─── Artist title — animates via JS observer ───────────────────── */
 .artist-title {
   font-family: var(--font);
   font-weight: 700;
@@ -67,6 +67,7 @@ canvas#neuro {
   margin: 0 0 20px var(--side-pad);
   padding: 0;
   will-change: transform, opacity;
+  /* start hidden, JS adds .visible */
   opacity: 0;
   transform: translateX(-20px);
   transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -91,10 +92,8 @@ canvas#neuro {
   overflow-x: auto;
   overflow-y: visible;
   scroll-behavior: smooth;
-  /* hide scrollbar but keep it functional */
   scrollbar-width: none;
   -ms-overflow-style: none;
-  /* subtle fade at right edge */
   -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
   mask-image: linear-gradient(to right, black 85%, transparent 100%);
 }
@@ -102,6 +101,9 @@ canvas#neuro {
 .cards-track::-webkit-scrollbar { display: none; }
 
 /* ─── Song card ──────────────────────────────────────────────────── */
+/* Cards are VISIBLE by default — they live in overflow-x containers
+   which can't be reached by the vertical IntersectionObserver.
+   Only titles get the scroll-fade treatment. */
 .card {
   flex: 0 0 var(--card-size);
   width: var(--card-size);
@@ -113,23 +115,23 @@ canvas#neuro {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  will-change: transform, opacity;
-  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              opacity 0.45s ease,
-              border-color 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              border-color 0.3s ease,
+              opacity 0.4s ease;
   cursor: default;
-  opacity: 0;
-  transform: translateY(28px);
-}
-
-.card.visible {
+  /* visible by default */
   opacity: 1;
   transform: translateY(0);
 }
 
-.card.hidden-above {
+/* Staggered entrance — JS adds .card-animate, then .card-animate.visible */
+.card.card-animate {
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(28px);
+}
+.card.card-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .card:not(.card--placeholder):hover {
@@ -138,18 +140,14 @@ canvas#neuro {
 }
 
 .card--placeholder {
-  opacity: 0;
-  cursor: default;
-}
-
-.card--placeholder.visible {
   opacity: 0.42;
-  transform: translateY(0);
 }
 
-.card--placeholder.hidden-above {
+.card--placeholder.card-animate {
   opacity: 0;
-  transform: translateY(-20px);
+}
+.card--placeholder.card-animate.visible {
+  opacity: 0.42;
 }
 
 .card--placeholder:hover {
@@ -177,7 +175,6 @@ canvas#neuro {
 }
 
 .card--placeholder .card-art-inner {
-  /* dashed circle for placeholders */
   background: transparent;
   border: 1.5px dashed rgba(255,246,247,0.2);
 }
@@ -248,14 +245,13 @@ canvas#neuro {
   display: block;
 }
 
-/* ─── Card play/pause icon switching ───────────────────────────── */
+/* ─── Play/pause icon switching ─────────────────────────────────── */
 .card-playpause .icon-play  { display: block; }
 .card-playpause .icon-pause { display: none; }
-
 .card-playpause.playing .icon-play  { display: none; }
 .card-playpause.playing .icon-pause { display: block; }
 
-/* ─── Card volume icon switching ────────────────────────────────── */
+/* ─── Volume icon switching ──────────────────────────────────────── */
 .card-mute .icon-vol-high { display: block; }
 .card-mute .icon-vol-low  { display: none; }
 .card-mute .icon-vol-mute { display: none; }
@@ -268,7 +264,7 @@ canvas#neuro {
 .card-mute.muted .icon-vol-low  { display: none; }
 .card-mute.muted .icon-vol-mute { display: block; }
 
-/* ─── Card volume slider ─────────────────────────────────────────── */
+/* ─── Volume slider ──────────────────────────────────────────────── */
 .card-vol-wrap {
   display: flex;
   align-items: center;
@@ -328,7 +324,6 @@ canvas#neuro {
   box-shadow: 0 1px 4px rgba(0,0,0,0.5);
   transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
 .card-vol-slider::-webkit-slider-thumb:hover { transform: scale(1.3); }
 
 .card-vol-slider::-moz-range-thumb {
@@ -338,21 +333,14 @@ canvas#neuro {
   border: none;
   box-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
-
 .card-vol-slider::-moz-range-track {
   background: transparent;
   height: 3px;
 }
 
-
-
-/* ─── Smooth scroll polyfill for wheel events ────────────────────── */
-/* (handled in JS for non-CSS smooth scroll browsers) */
-
 /* ─── Accessibility ──────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .artist-title, .card { transition: none; }
-  .start-btn { animation: none; }
 }
 
 /* ─── Responsive ─────────────────────────────────────────────────── */

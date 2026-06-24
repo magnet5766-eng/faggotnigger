@@ -4,16 +4,15 @@
 
   // ─── Per-card audio setup ────────────────────────────────────────
   document.querySelectorAll(".card[data-src]").forEach(card => {
-    const audio     = card.querySelector(".card-audio");
-    const playBtn   = card.querySelector(".card-playpause");
-    const muteBtn   = card.querySelector(".card-mute");
-    const slider    = card.querySelector(".card-vol-slider");
-    const fill      = card.querySelector(".card-vol-fill");
+    const audio   = card.querySelector(".card-audio");
+    const playBtn = card.querySelector(".card-playpause");
+    const muteBtn = card.querySelector(".card-mute");
+    const slider  = card.querySelector(".card-vol-slider");
+    const fill    = card.querySelector(".card-vol-fill");
 
     let lastVol = 1;
     audio.volume = 1;
 
-    // ── Play/Pause ────────────────────────────────────────────────
     playBtn.addEventListener("click", () => {
       if (audio.paused) {
         document.querySelectorAll(".card-audio").forEach(a => {
@@ -31,7 +30,6 @@
     audio.addEventListener("play",  () => playBtn.classList.add("playing"));
     audio.addEventListener("pause", () => playBtn.classList.remove("playing"));
 
-    // ── Volume slider ─────────────────────────────────────────────
     slider.addEventListener("input", () => {
       const val = parseFloat(slider.value);
       audio.volume = val / 100;
@@ -46,7 +44,6 @@
       }
     });
 
-    // ── Mute toggle ───────────────────────────────────────────────
     muteBtn.addEventListener("click", () => {
       if (audio.muted || audio.volume === 0) {
         audio.muted = false;
@@ -97,61 +94,45 @@
     rafId = requestAnimationFrame(animateScroll);
   }
 
-  // ─── Scroll-aware fade animations ─────────────────────────────────
-  // We observe .artist-row sections for vertical scroll visibility,
-  // then animate both the title and cards inside each row.
-  // Cards in horizontal tracks can't be reliably observed individually
-  // since they're inside overflow-x containers, so we drive them from
-  // their parent row's intersection state.
+  // ─── Card entrance animation (staggered on load) ──────────────────
+  // Cards live inside overflow-x containers so IntersectionObserver
+  // with a vertical root can't reliably detect them. Instead we do a
+  // simple staggered entrance on page load, and let the hover lift
+  // handle the interactive feel.
+  const allCards = document.querySelectorAll(".card");
+  allCards.forEach(card => card.classList.add("card-animate"));
 
-  // Initial hidden state — set via JS so elements are visible if JS fails
+  // After one frame (so opacity:0 is painted), stagger them in
+  requestAnimationFrame(() => {
+    allCards.forEach((card, i) => {
+      setTimeout(() => card.classList.add("visible"), i * 60);
+    });
+  });
+
+  // ─── Title scroll-fade (titles ARE in the vertical scroll flow) ───
   document.querySelectorAll(".artist-title").forEach(el => {
-    el.classList.remove("visible", "hidden-above");
-  });
-  document.querySelectorAll(".card").forEach(el => {
-    el.classList.remove("visible", "hidden-above");
+    // start hidden
+    el.style.opacity = "0";
+    el.style.transform = "translateX(-20px)";
   });
 
-  const rowObserver = new IntersectionObserver((entries) => {
+  const titleObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      const row   = entry.target;
-      const title = row.querySelector(".artist-title");
-      const cards = Array.from(row.querySelectorAll(".card"));
-      const rect  = entry.boundingClientRect;
-      const root  = entry.rootBounds;
+      const el   = entry.target;
+      const rect = entry.boundingClientRect;
+      const root = entry.rootBounds;
 
       if (entry.isIntersecting) {
-        // Row entering — slide title in, stagger cards
-        if (title) {
-          title.classList.remove("hidden-above");
-          title.classList.add("visible");
-        }
-        cards.forEach((card, i) => {
-          setTimeout(() => {
-            card.classList.remove("hidden-above");
-            card.classList.add("visible");
-          }, i * 70);
-        });
+        el.classList.remove("hidden-above");
+        el.classList.add("visible");
       } else {
         const isAbove = root && rect.bottom < root.top;
-        if (title) {
-          title.classList.toggle("hidden-above", isAbove);
-          title.classList.toggle("visible",      false);
-          if (!isAbove) title.classList.remove("hidden-above");
-        }
-        cards.forEach(card => {
-          card.classList.toggle("hidden-above", isAbove);
-          card.classList.toggle("visible",      false);
-          if (!isAbove) card.classList.remove("hidden-above");
-        });
+        el.classList.remove("visible");
+        el.classList.toggle("hidden-above", isAbove);
       }
     });
-  }, {
-    root: page,
-    threshold: 0.05,   // fire as soon as 5% of the row is visible
-    rootMargin: "0px"
-  });
+  }, { root: page, threshold: 0.2 });
 
-  document.querySelectorAll(".artist-row").forEach(row => rowObserver.observe(row));
+  document.querySelectorAll(".artist-title").forEach(el => titleObserver.observe(el));
 
 })();
