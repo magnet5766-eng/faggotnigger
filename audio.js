@@ -1,15 +1,6 @@
 /* ─── Audio controller ──────────────────────────────────────────── */
 
 (function () {
-  const startOverlay = document.getElementById("startOverlay");
-  const startBtn     = document.getElementById("startBtn");
-
-  // ─── Start overlay — dismiss on first click, enabling audio ──────
-  function dismissOverlay() {
-    startOverlay.classList.add("hidden");
-    startOverlay.removeEventListener("click", dismissOverlay);
-  }
-  startOverlay.addEventListener("click", dismissOverlay);
 
   // ─── Per-card audio setup ────────────────────────────────────────
   document.querySelectorAll(".card[data-src]").forEach(card => {
