@@ -16,8 +16,6 @@
   <meta property="og:description" content="The official home of every Neuro Noise Studios diss track.">
   <meta property="og:image"       content="icon.png">
   <meta name="theme-color"        content="#151912">
-
-  <!-- Twitter card fallback -->
   <meta name="twitter:card"        content="summary">
   <meta name="twitter:title"       content="Neuro Noise">
   <meta name="twitter:description" content="The official home of every Neuro Noise Studios diss track.">
@@ -30,7 +28,7 @@
 </head>
 <body>
 
-  <!-- Click-to-start overlay (required by browsers to allow autoplay) -->
+  <!-- Click-to-start overlay -->
   <div class="start-overlay" id="startOverlay">
     <button class="start-btn" id="startBtn" aria-label="Start">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,72 +38,165 @@
     <p class="start-label">Click to play</p>
   </div>
 
-  <!-- Audio -->
-  <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
-
-  <!-- Music Controls -->
-  <div class="music-controls" id="musicControls">
-    <!-- Play/Pause Button -->
-    <button class="ctrl-btn paused" id="playPauseBtn" aria-label="Play music" title="Play music">
-      <!-- Pause icon (default since music plays on load) -->
-      <svg class="icon icon-pause" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="5" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
-        <rect x="15" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
-      </svg>
-      <!-- Play icon -->
-      <svg class="icon icon-play" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6 4.5L20 12L6 19.5V4.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-      </svg>
-    </button>
-
-    <!-- Volume Control -->
-    <div class="ctrl-divider"></div>
-    <div class="volume-wrap" id="volumeWrap">
-      <button class="ctrl-btn" id="muteBtn" aria-label="Mute" title="Mute">
-        <!-- Volume High -->
-        <svg class="icon icon-vol-high" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-          <path d="M16.5 7.5C17.9 8.9 18.8 10.4 18.8 12C18.8 13.6 17.9 15.1 16.5 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M19.5 5C21.8 7.3 23 9.6 23 12C23 14.4 21.8 16.7 19.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        <!-- Volume Low -->
-        <svg class="icon icon-vol-low" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-          <path d="M16.5 8.5C17.6 9.6 18.3 10.7 18.3 12C18.3 13.3 17.6 14.4 16.5 15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        <!-- Muted -->
-        <svg class="icon icon-vol-mute" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-          <path d="M17 9L22 15M22 9L17 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
-      </button>
-
-      <!-- Volume Slider Track -->
-      <div class="vol-slider-wrap" id="volSliderWrap">
-        <div class="vol-track">
-          <div class="vol-fill" id="volFill"></div>
-        </div>
-        <input type="range" class="vol-slider" id="volSlider" min="0" max="100" value="100" aria-label="Volume">
-      </div>
-    </div>
-  </div>
-
   <canvas id="neuro"></canvas>
 
-  <div class="content">
-    <div class="section section--hero">
-      <div class="hero-text">
-        <h1 class="title">Xander Diss Track</h1>
-        <p class="subtitle">Official Xander Diss Track Music Video.</p>
-      </div>
-    </div>
-  </div>
+  <!-- Main scrollable content -->
+  <div class="page" id="page">
 
+    <!-- ── Xander Diss Tracks ── -->
+    <section class="artist-row">
+      <h2 class="artist-title">Xander Diss Tracks</h2>
+      <div class="cards-track">
+
+        <!-- Real song card -->
+        <div class="card" data-src="xander1.mp3">
+          <div class="card-art">
+            <div class="card-art-inner"></div>
+          </div>
+          <div class="card-info">
+            <p class="card-name">Xander Diss</p>
+            <p class="card-meta">prod. by Paul Matson</p>
+          </div>
+          <div class="card-controls">
+            <button class="card-btn card-playpause" aria-label="Play">
+              <!-- Play -->
+              <svg class="icon icon-play" viewBox="0 0 24 24" fill="none">
+                <path d="M6 4.5L20 12L6 19.5V4.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+              </svg>
+              <!-- Pause -->
+              <svg class="icon icon-pause" viewBox="0 0 24 24" fill="none">
+                <rect x="5" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
+                <rect x="15" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
+              </svg>
+            </button>
+            <div class="card-vol-wrap">
+              <button class="card-btn card-mute" aria-label="Mute">
+                <svg class="icon icon-vol-high" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                  <path d="M16.5 7.5C17.9 8.9 18.8 10.4 18.8 12C18.8 13.6 17.9 15.1 16.5 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M19.5 5C21.8 7.3 23 9.6 23 12C23 14.4 21.8 16.7 19.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <svg class="icon icon-vol-low" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                  <path d="M16.5 8.5C17.6 9.6 18.3 10.7 18.3 12C18.3 13.3 17.6 14.4 16.5 15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <svg class="icon icon-vol-mute" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                  <path d="M17 9L22 15M22 9L17 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <div class="card-vol-slider-wrap">
+                <div class="card-vol-track"><div class="card-vol-fill"></div></div>
+                <input type="range" class="card-vol-slider" min="0" max="100" value="100" aria-label="Volume">
+              </div>
+            </div>
+          </div>
+          <audio class="card-audio" src="xander1.mp3" preload="none" loop></audio>
+        </div>
+
+        <!-- Placeholder cards -->
+        <div class="card card--placeholder">
+          <div class="card-art"><div class="card-art-inner"></div></div>
+          <div class="card-info">
+            <p class="card-name">Coming Soon</p>
+            <p class="card-meta">— stay tuned —</p>
+          </div>
+        </div>
+        <div class="card card--placeholder">
+          <div class="card-art"><div class="card-art-inner"></div></div>
+          <div class="card-info">
+            <p class="card-name">Coming Soon</p>
+            <p class="card-meta">— stay tuned —</p>
+          </div>
+        </div>
+        <div class="card card--placeholder">
+          <div class="card-art"><div class="card-art-inner"></div></div>
+          <div class="card-info">
+            <p class="card-name">Coming Soon</p>
+            <p class="card-meta">— stay tuned —</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Bailey Diss Tracks ── -->
+    <section class="artist-row">
+      <h2 class="artist-title">Bailey Diss Tracks</h2>
+      <div class="cards-track">
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+      </div>
+    </section>
+
+    <!-- ── Levi Diss Tracks ── -->
+    <section class="artist-row">
+      <h2 class="artist-title">Levi Diss Tracks</h2>
+      <div class="cards-track">
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+      </div>
+    </section>
+
+    <!-- ── Hunter Diss Tracks ── -->
+    <section class="artist-row">
+      <h2 class="artist-title">Hunter Diss Tracks</h2>
+      <div class="cards-track">
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+      </div>
+    </section>
+
+    <!-- ── Liam Diss Tracks ── -->
+    <section class="artist-row">
+      <h2 class="artist-title">Liam Diss Tracks</h2>
+      <div class="cards-track">
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+      </div>
+    </section>
+
+    <!-- ── Zach Diss Tracks ── -->
+    <section class="artist-row">
+      <h2 class="artist-title">Zach Diss Tracks</h2>
+      <div class="cards-track">
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+      </div>
+    </section>
+
+    <!-- ── Alex Diss Tracks ── -->
+    <section class="artist-row">
+      <h2 class="artist-title">Alex Diss Tracks</h2>
+      <div class="cards-track">
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+      </div>
+    </section>
+
+    <!-- ── Dylan Diss Tracks ── -->
+    <section class="artist-row">
+      <h2 class="artist-title">Dylan Diss Tracks</h2>
+      <div class="cards-track">
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+      </div>
+    </section>
+
+  </div><!-- /page -->
+
+  <!-- Shaders -->
   <script id="vertShader" type="x-shader/x-vertex">
     precision mediump float;
     varying vec2 vUv;
     attribute vec2 a_position;
-
     void main() {
       vUv = .5 * (a_position + 1.);
       gl_Position = vec4(a_position, 0.0, 1.0);
@@ -120,8 +211,6 @@
     uniform vec2 u_pointer_position;
     uniform float u_scroll_progress;
 
-    // Precomputed rotation constants for angle = 1.0 rad
-    // Avoids calling cos/sin 15× per pixel per frame
     const float ROT_C = 0.5403023059;
     const float ROT_S = 0.8414709848;
 
@@ -134,8 +223,7 @@
       vec2 sine_acc = vec2(0.);
       vec2 res = vec2(0.);
       float scale = 8.;
-      float scaleMul = 1.2 - 0.07 * p; // constant per pixel, hoist out of loop
-
+      float scaleMul = 1.2 - 0.07 * p;
       for (int j = 0; j < 15; j++) {
         uv = rotate(uv);
         sine_acc = rotate(sine_acc);
@@ -150,30 +238,20 @@
     void main() {
       vec2 uv = .5 * vUv;
       uv.x *= u_ratio;
-
-      // Use higher precision for pointer distance to avoid spiral artifacts
-      // on lower-end GPUs (mediump loses ~3 decimal places of precision)
       highp vec2 pointer = vUv - u_pointer_position;
       pointer.x *= u_ratio;
       highp float dist = length(pointer);
-
-      // Smooth cubic falloff — eliminates the hard transition ring that
-      // causes the visible spiral on Chromebook / integrated graphics
       float d = clamp(float(dist), 0., 1.);
       float p = 0.5 * (1.0 - d) * (1.0 - d) * (1.0 - d * 0.5);
-
       float t = .001 * u_time;
       vec3 color = vec3(0.);
-
       float noise = neuro_shape(uv, t, p);
       noise = 1.2 * pow(noise, 3.);
       noise += pow(noise, 10.);
       noise = max(.0, noise - .5);
       noise *= (1. - length(vUv - .5));
-
       color = normalize(vec3(.2, .5 + .4 * cos(3. * u_scroll_progress), .5 + .5 * sin(3. * u_scroll_progress)));
       color = color * noise;
-
       gl_FragColor = vec4(color, noise);
     }
   </script>
