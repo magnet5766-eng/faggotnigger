@@ -168,7 +168,7 @@
 
     const artHTML = song.art
       ? `<img src="${song.art}" alt="${song.title}" loading="lazy">`
-      : `<div class="song-row-placeholder-art"><svg viewBox="0 0 24 24" fill="none"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5"/></svg></div>`;
+      : `<div class="song-row-placeholder-art"><svg viewBox="0 0 24 24" fill="none"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5"/></svg></div>`;
 
     const liked = likedSongIds.has(song.id);
 
@@ -193,7 +193,7 @@
             <svg class="heart-icon" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
           </button>
           <button class="icon-btn" onclick="showAddToPlaylist(event, '${song.id}')" aria-label="Add to playlist" title="Add to playlist">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 10h10M4 14h8M17 14v6M14 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M11 12H3M16 6H3M11 18H3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M18 9v6M21 12h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           </button>
           ${inPlaylist ? `<button class="icon-btn" onclick="removeFromCurrentPlaylist(event, '${song.id}')" aria-label="Remove" title="Remove from playlist">
             <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -574,7 +574,7 @@
 
       btn.innerHTML = `
         <div class="playlist-icon">
-          ${firstArt ? `<img src="${firstArt.art}" alt="">` : `<svg viewBox="0 0 24 24" fill="none"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5"/></svg>`}
+          ${firstArt ? `<img src="${firstArt.art}" alt="">` : `<svg viewBox="0 0 24 24" fill="none"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5"/></svg>`}
         </div>
         <span class="playlist-item-name">${pl.name}</span>
       `;
@@ -606,7 +606,7 @@
 
     sec.innerHTML = `
       <div class="playlist-hero">
-        <div class="playlist-hero-art">${artHTML || '<svg viewBox="0 0 24 24" fill="none" style="width:48px;height:48px;color:var(--text-dim)"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5"/></svg>'}</div>
+        <div class="playlist-hero-art">${artHTML || '<svg viewBox="0 0 24 24" fill="none" style="width:48px;height:48px;color:var(--text-dim)"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5"/></svg>'}</div>
         <div class="playlist-hero-info">
           <div class="playlist-hero-type">Playlist</div>
           <h1 class="playlist-hero-name">${pl.name}</h1>
@@ -813,7 +813,7 @@
         const firstArt = songs.find(s => s.art);
         btn.innerHTML = `
           <div class="playlist-icon">
-            ${firstArt ? `<img src="${firstArt.art}" alt="">` : `<svg viewBox="0 0 24 24" fill="none"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5"/></svg>`}
+            ${firstArt ? `<img src="${firstArt.art}" alt="">` : `<svg viewBox="0 0 24 24" fill="none"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5"/></svg>`}
           </div>
           <span>${pl.name}</span>
         `;
