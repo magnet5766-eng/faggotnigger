@@ -47,6 +47,7 @@
   let playlists      = JSON.parse(localStorage.getItem('nn_playlists') || '[]');
   // playlists: [{ id, name, songIds: [] }]
   let activePlaylist = null;   // null = library view
+  let viewingLiked   = false;  // true when Liked Songs view is active
   let ctxTargetSong  = null;
   let editingPlaylistId = null;
 
@@ -423,6 +424,7 @@
       heartBtn.classList.toggle('liked', likedSongIds.has(id));
     }
     showToast(likedSongIds.has(id) ? 'Added to Liked Songs' : 'Removed from Liked Songs');
+    if (viewingLiked) showLikedSongs();
   };
 
   // ── Filter ───────────────────────────────────────────────────────
@@ -434,6 +436,7 @@
 
     // Back to library view
     activePlaylist = null;
+    viewingLiked = false;
     heroSection.classList.remove('hidden');
     searchResults.classList.add('hidden');
     searchInput.value = '';
@@ -443,6 +446,9 @@
 
     // Scroll to top
     content.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Auto-close the drawer on mobile after navigating
+    if (window.innerWidth <= 700) closeMobileSidebar();
   };
 
   // ── Search ───────────────────────────────────────────────────────
@@ -460,6 +466,9 @@
       artistSections.classList.remove('hidden');
       return;
     }
+
+    viewingLiked = false;
+    activePlaylist = null;
 
     heroSection.classList.add('hidden');
     artistSections.classList.add('hidden');
@@ -576,6 +585,7 @@
 
   function showPlaylist(pl) {
     activePlaylist = pl;
+    viewingLiked = false;
     artistSections.innerHTML = '';
     heroSection.classList.add('hidden');
     searchResults.classList.add('hidden');
@@ -625,7 +635,78 @@
     }
 
     content.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Auto-close the drawer on mobile after navigating
+    if (window.innerWidth <= 700) closeMobileSidebar();
   }
+
+  // ── Liked Songs ──────────────────────────────────────────────────
+  window.showLikedSongs = function () {
+    activePlaylist = null;
+    viewingLiked = true;
+    artistSections.innerHTML = '';
+    heroSection.classList.add('hidden');
+    searchResults.classList.add('hidden');
+    artistSections.classList.remove('hidden');
+    searchInput.value = '';
+    searchClear.classList.remove('visible');
+
+    // Update active states (sidebar nav + filter chips + playlists)
+    document.querySelectorAll('.filter-chip, .nav-item[data-filter]').forEach(el => {
+      el.classList.toggle('active', el.dataset.filter === 'liked');
+    });
+    renderPlaylistSidebar();
+
+    const songs = SONGS.filter(s => likedSongIds.has(s.id));
+    const realSongs = songs.filter(s => s.src);
+
+    const sec = document.createElement('section');
+    sec.className = 'artist-section playlist-view';
+
+    const artImages = [...new Set(songs.filter(s => s.art).map(s => s.art))].slice(0, 4);
+    const artHTML = artImages.map(a => `<img src="${a}" alt="">`).join('');
+
+    sec.innerHTML = `
+      <div class="playlist-hero playlist-hero--liked">
+        <div class="playlist-hero-art playlist-hero-art--liked">${artHTML || '<svg viewBox="0 0 24 24" fill="none" style="width:48px;height:48px;color:#fff"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" fill="currentColor"/></svg>'}</div>
+        <div class="playlist-hero-info">
+          <div class="playlist-hero-type">Playlist</div>
+          <h1 class="playlist-hero-name">Liked Songs</h1>
+          <p class="playlist-hero-count">${songs.length} song${songs.length !== 1 ? 's' : ''}</p>
+        </div>
+      </div>
+      <div class="playlist-actions">
+        ${realSongs.length ? `
+          <button class="btn-play-all" onclick="playLikedSongs()">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-14 9V3z" fill="currentColor"/></svg>
+            Play
+          </button>
+        ` : ''}
+      </div>
+      <div class="song-list" id="liked-songs"></div>
+    `;
+
+    artistSections.appendChild(sec);
+
+    const list = sec.querySelector('#liked-songs');
+    if (songs.length === 0) {
+      list.innerHTML = '<p style="color:var(--text-dim);font-size:14px;padding:8px 32px;">No liked songs yet. Tap the heart on any track to add it here.</p>';
+    } else {
+      songs.forEach((song, i) => buildSongRow(song, i + 1, list));
+    }
+
+    content.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Auto-close the drawer on mobile after navigating
+    if (window.innerWidth <= 700) closeMobileSidebar();
+  };
+
+  window.playLikedSongs = function () {
+    const songs = SONGS.filter(s => likedSongIds.has(s.id) && s.src);
+    if (!songs.length) return;
+    playSong(songs[0], songs);
+  };
+
 
   window.playPlaylist = function (id) {
     const pl = playlists.find(p => p.id === id);
@@ -820,8 +901,17 @@
   // ── Sidebar toggle (mobile) ──────────────────────────────────────
   window.toggleSidebar = function () {
     const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('mobile-open');
+    const scrim = document.getElementById('sidebarScrim');
+    const open = sidebar.classList.toggle('mobile-open');
+    if (scrim) scrim.classList.toggle('visible', open);
   };
+
+  function closeMobileSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const scrim = document.getElementById('sidebarScrim');
+    sidebar.classList.remove('mobile-open');
+    if (scrim) scrim.classList.remove('visible');
+  }
 
   // ── Toast ────────────────────────────────────────────────────────
   let toastEl = null;

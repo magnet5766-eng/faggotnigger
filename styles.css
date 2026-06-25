@@ -7,6 +7,8 @@ body, html {
   height: 100%;
   overflow: hidden;
   background: #0d0f0c;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 /* ─── Design Tokens ─────────────────────────────────────────────── */
@@ -53,6 +55,7 @@ body, html {
     "sidebar main"
     "player  player";
   height: 100vh;
+  height: 100dvh;
   background: var(--bg-base);
   gap: 0;
 }
@@ -72,6 +75,10 @@ body, html {
   transform: translateX(-100%);
   opacity: 0;
   pointer-events: none;
+}
+
+.sidebar-scrim {
+  display: none;
 }
 
 .sidebar-header {
@@ -95,9 +102,17 @@ body, html {
   justify-content: center;
   color: #0d0f0c;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .logo-icon svg { width: 18px; height: 18px; }
+
+.logo-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
 .logo-text {
   font-family: var(--font);
@@ -1376,42 +1391,153 @@ body, html {
 }
 
 @media (max-width: 700px) {
+  :root {
+    /* Mobile player is two rows tall (track + controls/seek) */
+    --player-h: 142px;
+  }
+
   .app {
     grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
     grid-template-areas:
       "main"
       "player";
+    height: 100vh;
+    height: 100dvh;
   }
 
+  /* Sidebar drawer: solid background + real scrim behind it so content
+     doesn't show through and it reads as an actual overlay, not a
+     half-transparent smear. */
   .sidebar {
     position: fixed;
     top: 0;
     left: 0;
-    bottom: var(--player-h);
-    width: 260px;
-    z-index: 40;
+    bottom: 0;
+    width: min(280px, 82vw);
+    z-index: 60;
+    background: #0f120d;
+    border-right: 1px solid var(--border-hover);
     transform: translateX(-100%);
-    opacity: 0;
-    transition: transform 0.3s var(--ease-out), opacity 0.3s ease;
+    opacity: 1;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 8px 0 32px rgba(0,0,0,0.5);
+    transition: transform 0.3s var(--ease-out);
   }
 
   .sidebar.mobile-open {
     transform: translateX(0);
+  }
+
+  .sidebar-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 55;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .sidebar-scrim.visible {
     opacity: 1;
+    pointer-events: auto;
   }
 
   .sidebar-toggle { display: flex !important; }
 
-  .player {
-    grid-template-columns: 1fr auto;
+  /* Topbar: tighten spacing so search box doesn't get squeezed off-screen,
+     and respect the notch/status bar. */
+  .topbar {
+    padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
+    gap: 6px;
   }
 
-  .player-center { display: none; }
-  .player-right { display: none; }
+  .topbar-search { margin: 0 6px; min-width: 0; }
+  .search-box { padding: 7px 10px; }
 
-  .hero { padding: 32px 20px 24px; }
-  .song-row { padding: 6px 20px; }
+  /* Player: stack track info above transport controls + seek bar so
+     play/pause/skip and the seek bar are never hidden on mobile. The
+     queue button sits to the right of the track row via grid areas
+     (not absolute positioning) so it never overlaps the like button. */
+  .player {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "track right"
+      "center center";
+    column-gap: 10px;
+    row-gap: 6px;
+    height: auto;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+  }
+
+  .player-track { grid-area: track; min-width: 0; }
+
+  .player-center {
+    grid-area: center;
+    width: 100%;
+  }
+
+  .player-seek { max-width: none; }
+
+  .player-right {
+    grid-area: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  /* Volume slider doesn't work well with touch + takes too much space;
+     keep the queue button reachable instead. */
+  .vol-slider-wrap,
+  #volMuteBtn { display: none; }
+
+  /* Song rows: like/add-to-playlist buttons relied on :hover, which
+     doesn't fire reliably on touch — keep them visible at all times. */
+  .song-row-actions {
+    opacity: 1;
+  }
+
+  .song-row { padding: 8px 20px; }
+  .song-row-actions .icon-btn { width: 32px; height: 32px; }
+
+  .hero { padding: 28px 20px 24px; min-height: 180px; }
+  .hero-title { font-size: clamp(30px, 9vw, 44px); }
+  .hero-actions { flex-wrap: wrap; }
   .artist-section-header { padding: 0 20px 12px; }
+  .search-results { padding: 20px 20px; }
+
+  /* Queue panel: don't let a 300px-fixed-width panel overflow narrow
+     phones, and respect the safe area at the bottom. */
+  .queue-panel {
+    width: min(320px, 88vw);
+    bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Playlist / Liked Songs hero: stack vertically on narrow screens
+     instead of squeezing a 140px tile + text into one row. */
+  .playlist-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 20px;
+    gap: 16px;
+  }
+
+  .playlist-hero-art {
+    width: 96px;
+    height: 96px;
+  }
+
+  .playlist-actions { padding: 12px 20px; }
+
+  .modal { width: 92vw; max-width: 420px; }
+  .modal-body { -webkit-overflow-scrolling: touch; }
+
+  .content { -webkit-overflow-scrolling: touch; }
 }
 
 @media (min-width: 701px) {
@@ -1449,6 +1575,13 @@ body, html {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.playlist-hero-art--liked {
+  background: linear-gradient(135deg, var(--accent) 0%, #5ad1ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .playlist-hero-info {}

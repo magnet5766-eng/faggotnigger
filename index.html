@@ -31,15 +31,15 @@
 
   <div class="app">
 
+    <!-- Mobile sidebar scrim (tap to close) -->
+    <div class="sidebar-scrim" id="sidebarScrim" onclick="toggleSidebar()"></div>
+
     <!-- ── Sidebar ── -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="logo">
           <div class="logo-icon">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="currentColor" opacity="0.3"/>
-              <circle cx="12" cy="12" r="3" fill="currentColor"/>
-            </svg>
+            <img src="icon.png" alt="Neuro Noise" class="logo-icon-img">
           </div>
           <span class="logo-text">Neuro Noise</span>
         </div>
@@ -53,6 +53,10 @@
         <button class="nav-item" data-filter="search" onclick="openSearch()">
           <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           <span>Search</span>
+        </button>
+        <button class="nav-item" data-filter="liked" onclick="showLikedSongs()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <span>Liked Songs</span>
         </button>
       </nav>
 
