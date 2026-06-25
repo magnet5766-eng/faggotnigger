@@ -5,12 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Neuro Noise</title>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="icon.png">
   <link rel="apple-touch-icon" href="icon.png">
 
-  <!-- Discord / Open Graph embed -->
-  <!-- NOTE: Replace "YOUR_DOMAIN" below with your actual site URL for the image to show in Discord -->
   <meta property="og:type"        content="website">
   <meta property="og:site_name"   content="Neuro Noise Studios">
   <meta property="og:title"       content="Neuro Noise">
@@ -19,7 +16,7 @@
   <meta property="og:image:type"  content="image/png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
-  <meta name="theme-color"        content="#151912">
+  <meta name="theme-color"        content="#0d0f0c">
   <meta name="twitter:card"        content="summary">
   <meta name="twitter:title"       content="Neuro Noise">
   <meta name="twitter:description" content="The official home of every Neuro Noise Studios diss track.">
@@ -27,206 +24,267 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+  <div class="app">
 
-  <!-- Main scrollable content -->
-  <div class="page" id="page">
-
-    <!-- ── Xander Diss Tracks ── -->
-    <section class="artist-row">
-      <h2 class="artist-title">Xander Diss Tracks</h2>
-      <div class="cards-track">
-
-        <!-- Real song card -->
-        <div class="card" data-src="xander1.mp3">
-          <div class="card-art">
-            <img class="card-art-img" src="xander1.png" alt="Xander Diss cover art" draggable="false">
+    <!-- ── Sidebar ── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="currentColor" opacity="0.3"/>
+              <circle cx="12" cy="12" r="3" fill="currentColor"/>
+            </svg>
           </div>
-          <div class="card-info">
-            <p class="card-name">Xander Diss</p>
-            <p class="card-meta">prod. by Neuro Noise</p>
-          </div>
-          <div class="card-controls">
-            <button class="card-btn card-playpause" aria-label="Play">
-              <!-- Play -->
-              <svg class="icon icon-play" viewBox="0 0 24 24" fill="none">
-                <path d="M6 4.5L20 12L6 19.5V4.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-              </svg>
-              <!-- Pause -->
-              <svg class="icon icon-pause" viewBox="0 0 24 24" fill="none">
-                <rect x="5" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
-                <rect x="15" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
-              </svg>
-            </button>
-            <div class="card-vol-wrap">
-              <button class="card-btn card-mute" aria-label="Mute">
-                <svg class="icon icon-vol-high" viewBox="0 0 24 24" fill="none">
-                  <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-                  <path d="M16.5 7.5C17.9 8.9 18.8 10.4 18.8 12C18.8 13.6 17.9 15.1 16.5 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                  <path d="M19.5 5C21.8 7.3 23 9.6 23 12C23 14.4 21.8 16.7 19.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <svg class="icon icon-vol-low" viewBox="0 0 24 24" fill="none">
-                  <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-                  <path d="M16.5 8.5C17.6 9.6 18.3 10.7 18.3 12C18.3 13.3 17.6 14.4 16.5 15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <svg class="icon icon-vol-mute" viewBox="0 0 24 24" fill="none">
-                  <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-                  <path d="M17 9L22 15M22 9L17 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                </svg>
-              </button>
-              <div class="card-vol-slider-wrap">
-                <div class="card-vol-track"><div class="card-vol-fill"></div></div>
-                <input type="range" class="card-vol-slider" min="0" max="100" value="100" aria-label="Volume">
-              </div>
+          <span class="logo-text">Neuro Noise</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-filter="all" onclick="setFilter('all', this)">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" data-filter="search" onclick="openSearch()">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span>Search</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-section">
+        <p class="sidebar-label">Artists</p>
+        <div class="artist-filters" id="artistFilters">
+          <button class="filter-chip active" data-filter="all" onclick="setFilter('all', this)">All</button>
+          <!-- dynamically populated -->
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <p class="sidebar-label">Playlists</p>
+        <div class="playlist-list" id="playlistList">
+          <button class="playlist-item" onclick="openNewPlaylist()">
+            <div class="playlist-icon playlist-icon--new">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             </div>
-          </div>
-          <audio class="card-audio" src="xander1.mp3" preload="none"></audio>
+            <span>New Playlist</span>
+          </button>
+          <!-- dynamically populated -->
         </div>
-
-        <!-- Placeholder cards -->
-        <div class="card card--placeholder">
-          <div class="card-art"><div class="card-art-inner"></div></div>
-          <div class="card-info">
-            <p class="card-name">Coming Soon</p>
-            <p class="card-meta">— stay tuned —</p>
-          </div>
-        </div>
-        <div class="card card--placeholder">
-          <div class="card-art"><div class="card-art-inner"></div></div>
-          <div class="card-info">
-            <p class="card-name">Coming Soon</p>
-            <p class="card-meta">— stay tuned —</p>
-          </div>
-        </div>
-        <div class="card card--placeholder">
-          <div class="card-art"><div class="card-art-inner"></div></div>
-          <div class="card-info">
-            <p class="card-name">Coming Soon</p>
-            <p class="card-meta">— stay tuned —</p>
-          </div>
-        </div>
-
       </div>
-    </section>
+    </aside>
 
-    <!-- ── Bailey Diss Tracks ── -->
-    <section class="artist-row">
-      <h2 class="artist-title">Bailey Diss Tracks</h2>
-      <div class="cards-track">
-        <!-- Bailey real card -->
-        <div class="card" data-src="bailey1.mp3">
-          <div class="card-art">
-            <img class="card-art-img" src="bailey1.png" alt="Bailey Diss cover art" draggable="false">
-          </div>
-          <div class="card-info">
-            <p class="card-name">Bailey Diss</p>
-            <p class="card-meta">prod. by Neuro Noise</p>
-          </div>
-          <div class="card-controls">
-            <button class="card-btn card-playpause" aria-label="Play">
-              <svg class="icon icon-play" viewBox="0 0 24 24" fill="none">
-                <path d="M6 4.5L20 12L6 19.5V4.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-              </svg>
-              <svg class="icon icon-pause" viewBox="0 0 24 24" fill="none">
-                <rect x="5" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
-                <rect x="15" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
-              </svg>
+    <!-- ── Main content ── -->
+    <main class="main" id="main">
+
+      <!-- Top bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-btn" onclick="window.history.back()" aria-label="Back">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="icon-btn" onclick="window.history.forward()" aria-label="Forward">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="topbar-search" id="topbarSearch">
+          <div class="search-box" id="searchBox">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <input type="text" id="searchInput" placeholder="Search songs, artists..." oninput="handleSearch(this.value)" onfocus="searchFocused()" onblur="searchBlurred()">
+            <button class="search-clear" id="searchClear" onclick="clearSearch()" aria-label="Clear">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             </button>
-            <div class="card-vol-wrap">
-              <button class="card-btn card-mute" aria-label="Mute">
-                <svg class="icon icon-vol-high" viewBox="0 0 24 24" fill="none">
-                  <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-                  <path d="M16.5 7.5C17.9 8.9 18.8 10.4 18.8 12C18.8 13.6 17.9 15.1 16.5 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                  <path d="M19.5 5C21.8 7.3 23 9.6 23 12C23 14.4 21.8 16.7 19.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <svg class="icon icon-vol-low" viewBox="0 0 24 24" fill="none">
-                  <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-                  <path d="M16.5 8.5C17.6 9.6 18.3 10.7 18.3 12C18.3 13.3 17.6 14.4 16.5 15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <svg class="icon icon-vol-mute" viewBox="0 0 24 24" fill="none">
-                  <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-                  <path d="M17 9L22 15M22 9L17 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                </svg>
-              </button>
-              <div class="card-vol-slider-wrap">
-                <div class="card-vol-track"><div class="card-vol-fill"></div></div>
-                <input type="range" class="card-vol-slider" min="0" max="100" value="100" aria-label="Volume">
-              </div>
-            </div>
           </div>
-          <audio class="card-audio" src="bailey1.mp3" preload="none"></audio>
         </div>
+        <div class="topbar-right">
+          <button class="icon-btn sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </header>
 
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+      <!-- Content area -->
+      <div class="content" id="content">
+
+        <!-- Hero -->
+        <section class="hero" id="heroSection">
+          <div class="hero-bg"></div>
+          <div class="hero-text">
+            <span class="hero-eyebrow">Neuro Noise Studios</span>
+            <h1 class="hero-title">Every diss.<br>Right here.</h1>
+            <p class="hero-sub">The complete collection — updated as tracks drop.</p>
+          </div>
+          <div class="hero-actions">
+            <button class="btn-play-all" onclick="playAll()">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-14 9V3z" fill="currentColor"/></svg>
+              Play All
+            </button>
+            <button class="btn-shuffle-all" onclick="shuffleAll()">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M16 3h5v5M4 20L21 3M16 21h5v-5M4 4l5.5 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Shuffle
+            </button>
+          </div>
+        </section>
+
+        <!-- Search results (hidden by default) -->
+        <section class="search-results hidden" id="searchResults">
+          <h2 class="section-title">Search Results</h2>
+          <div class="song-list" id="searchResultsList"></div>
+        </section>
+
+        <!-- Artist sections -->
+        <div id="artistSections"></div>
+
       </div>
-    </section>
+    </main>
 
-    <!-- ── Levi Diss Tracks ── -->
-    <section class="artist-row">
-      <h2 class="artist-title">Levi Diss Tracks</h2>
-      <div class="cards-track">
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+    <!-- ── Now Playing Bar ── -->
+    <footer class="player" id="player">
+      <!-- Left: current track info -->
+      <div class="player-track">
+        <div class="player-art" id="playerArt">
+          <div class="player-art-placeholder">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <img id="playerArtImg" src="" alt="" draggable="false">
+        </div>
+        <div class="player-track-info">
+          <p class="player-track-name" id="playerTrackName">—</p>
+          <p class="player-track-artist" id="playerTrackArtist">Select a track</p>
+        </div>
+        <button class="icon-btn heart-btn" id="heartBtn" onclick="toggleLike()" aria-label="Like">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </button>
       </div>
-    </section>
 
-    <!-- ── Hunter Diss Tracks ── -->
-    <section class="artist-row">
-      <h2 class="artist-title">Hunter Diss Tracks</h2>
-      <div class="cards-track">
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+      <!-- Center: controls + seek -->
+      <div class="player-center">
+        <div class="player-controls">
+          <button class="icon-btn ctrl-btn" id="shuffleBtn" onclick="toggleShuffle()" aria-label="Shuffle" title="Shuffle">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M16 3h5v5M4 20L21 3M16 21h5v-5M4 4l5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="icon-btn ctrl-btn ctrl-prev" onclick="prevTrack()" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M19 20L9 12l10-8v16zM5 19V5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="play-btn" id="mainPlayBtn" onclick="togglePlay()" aria-label="Play/Pause">
+            <svg class="icon-play" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-14 9V3z" fill="currentColor"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" fill="none"><rect x="6" y="4" width="4" height="16" rx="1.5" fill="currentColor"/><rect x="14" y="4" width="4" height="16" rx="1.5" fill="currentColor"/></svg>
+          </button>
+          <button class="icon-btn ctrl-btn ctrl-next" onclick="nextTrack()" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 4l10 8-10 8V4zM19 5v14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="icon-btn ctrl-btn" id="repeatBtn" onclick="toggleRepeat()" aria-label="Repeat" title="Repeat">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="player-seek">
+          <span class="time-label" id="timeElapsed">0:00</span>
+          <div class="seek-wrap" id="seekWrap">
+            <div class="seek-track">
+              <div class="seek-fill" id="seekFill"></div>
+              <div class="seek-thumb" id="seekThumb"></div>
+            </div>
+            <input type="range" class="seek-slider" id="seekSlider" min="0" max="1000" value="0" aria-label="Seek">
+          </div>
+          <span class="time-label" id="timeDuration">0:00</span>
+        </div>
       </div>
-    </section>
 
-    <!-- ── Liam Diss Tracks ── -->
-    <section class="artist-row">
-      <h2 class="artist-title">Liam Diss Tracks</h2>
-      <div class="cards-track">
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+      <!-- Right: volume + queue -->
+      <div class="player-right">
+        <button class="icon-btn ctrl-btn" id="queueBtn" onclick="toggleQueue()" aria-label="Queue" title="Queue">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 10h16M4 14h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button class="icon-btn ctrl-btn" id="volMuteBtn" onclick="toggleMute()" aria-label="Volume">
+          <svg class="icon-vol-high" viewBox="0 0 24 24" fill="none">
+            <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            <path d="M16.5 7.5C17.9 8.9 18.8 10.4 18.8 12C18.8 13.6 17.9 15.1 16.5 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M19.5 5C21.8 7.3 23 9.6 23 12C23 14.4 21.8 16.7 19.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-vol-low" viewBox="0 0 24 24" fill="none">
+            <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            <path d="M16.5 8.5C17.6 9.6 18.3 10.7 18.3 12C18.3 13.3 17.6 14.4 16.5 15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-vol-muted" viewBox="0 0 24 24" fill="none">
+            <path d="M3 9.5V14.5H7L13 19V5L7 9.5H3Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            <path d="M17 9L22 15M22 9L17 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="vol-slider-wrap">
+          <div class="vol-track">
+            <div class="vol-fill" id="volFill"></div>
+          </div>
+          <input type="range" class="vol-slider" id="volSlider" min="0" max="100" value="100" aria-label="Volume">
+        </div>
       </div>
-    </section>
+    </footer>
 
-    <!-- ── Zach Diss Tracks ── -->
-    <section class="artist-row">
-      <h2 class="artist-title">Zach Diss Tracks</h2>
-      <div class="cards-track">
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+  </div>
+
+  <!-- ── Queue Panel ── -->
+  <div class="queue-panel" id="queuePanel">
+    <div class="queue-header">
+      <h3>Queue</h3>
+      <button class="icon-btn" onclick="toggleQueue()" aria-label="Close queue">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="queue-now">
+      <p class="queue-section-label">Now Playing</p>
+      <div id="queueNowPlaying"></div>
+    </div>
+    <div class="queue-next">
+      <p class="queue-section-label">Next Up</p>
+      <div id="queueNextUp"></div>
+    </div>
+  </div>
+
+  <!-- ── Playlist Modal ── -->
+  <div class="modal-overlay hidden" id="playlistModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">New Playlist</h3>
+        <button class="icon-btn" onclick="closeModal()" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
       </div>
-    </section>
-
-    <!-- ── Alex Diss Tracks ── -->
-    <section class="artist-row">
-      <h2 class="artist-title">Alex Diss Tracks</h2>
-      <div class="cards-track">
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+      <div class="modal-body">
+        <input type="text" id="playlistNameInput" placeholder="My Playlist" maxlength="40">
+        <div class="modal-songs" id="modalSongList"></div>
       </div>
-    </section>
-
-    <!-- ── Dylan Diss Tracks ── -->
-    <section class="artist-row">
-      <h2 class="artist-title">Dylan Diss Tracks</h2>
-      <div class="cards-track">
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
-        <div class="card card--placeholder"><div class="card-art"><div class="card-art-inner"></div></div><div class="card-info"><p class="card-name">Coming Soon</p><p class="card-meta">— stay tuned —</p></div></div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn-primary" onclick="savePlaylist()" id="savePlaylistBtn">Create</button>
       </div>
-    </section>
+    </div>
+  </div>
 
-  </div><!-- /page -->
+  <!-- ── Add to Playlist Modal ── -->
+  <div class="modal-overlay hidden" id="addToPlaylistModal">
+    <div class="modal modal--small">
+      <div class="modal-header">
+        <h3>Add to Playlist</h3>
+        <button class="icon-btn" onclick="closeAddToPlaylist()" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="addToPlaylistBody"></div>
+    </div>
+  </div>
+
+  <!-- ── Context Menu ── -->
+  <div class="ctx-menu hidden" id="ctxMenu">
+    <button onclick="ctxPlay()">Play Now</button>
+    <button onclick="ctxPlayNext()">Play Next</button>
+    <button onclick="ctxAddToQueue()">Add to Queue</button>
+    <div class="ctx-divider"></div>
+    <button onclick="ctxAddToPlaylist()">Add to Playlist</button>
+    <button onclick="ctxLike()">Like</button>
+  </div>
 
   <script src="audio.js"></script>
 </body>
